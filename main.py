@@ -91,9 +91,10 @@ elif menu == "Pacientes":
 
                 if st.form_submit_button("Guardar cambios"):
                     modificar_paciente(id_sel, nombre, apellido, str(fecha_nacimiento),
-                                      telefono, email, str(fecha_primera_consulta),
-                                      patologia, modalidad, tipo, obra_social,
-                                      moneda, precio_sesion, pais_residencia, estado)
+                                      telefono, email, patologia, modalidad, tipo,
+                                      obra_social, moneda, precio_sesion,
+                                      pais_residencia, estado)
+                   
                     st.success("Paciente actualizado correctamente.")
                     st.rerun()
 
