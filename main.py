@@ -57,11 +57,10 @@ elif menu == "Pacientes":
                 except:
                     fn = date(1980, 1, 1)
                 fecha_nacimiento = st.date_input(
-                    "Fecha de nacimiento (dd/mm/aaaa)",
+                    "Fecha de nacimiento (aaaa/mm/dd)",
                     value=fn,
                     min_value=date(1900, 1, 1),
-                    max_value=date.today(),
-                    format="DD/MM/YYYY"
+                    max_value=date(2030, 12, 31)
                 )
                 telefono = st.text_input("Teléfono", value=p[4] or "")
                 email = st.text_input("Email", value=p[5] or "")
@@ -73,9 +72,8 @@ elif menu == "Pacientes":
                 fecha_primera_consulta = st.date_input(
                     "Primera consulta",
                     value=fpc,
-                    min_value=date(2000, 1, 1),
-                    max_value=date.today(),
-                    format="DD/MM/YYYY"
+                   min_value=date(2000, 1, 1),
+                   max_value=date(2030, 12, 31)
                 )
                 patologia = st.text_input("Patología / Motivo", value=p[7] or "")
                 modalidad = st.selectbox("Modalidad", ["presencial", "online"],
@@ -114,20 +112,19 @@ elif menu == "Pacientes":
             nombre = st.text_input("Nombre")
             apellido = st.text_input("Apellido")
             fecha_nacimiento = st.date_input(
-                "Fecha de nacimiento (dd/mm/aaaa)",
-                value=date(1980, 1, 1),
-                min_value=date(1900, 1, 1),
-                max_value=date.today(),
-                format="DD/MM/YYYY"
+                    "Fecha de nacimiento (aaaa/mm/dd)",
+                    value=fn,
+                    min_value=date(1900, 1, 1),
+                    max_value=date(2030, 12, 31)
             )
             telefono = st.text_input("Teléfono")
             email = st.text_input("Email")
+
             fecha_primera_consulta = st.date_input(
                 "Primera consulta",
-                value=date.today(),
-                min_value=date(2000, 1, 1),
-                max_value=date(2030, 12, 31),
-                format="DD/MM/YYYY"
+                 value=fpc,
+                 min_value=date(2000, 1, 1),
+                 max_value=date(2030, 12, 31)
             )
             patologia = st.text_input("Patología / Motivo de consulta")
             modalidad = st.selectbox("Modalidad", ["presencial", "online"])
