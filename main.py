@@ -137,11 +137,19 @@ elif menu == "Pacientes":
 
             if st.form_submit_button("Guardar paciente"):
                 if nombre and apellido:
-                    agregar_paciente(nombre, apellido, str(fecha_nacimiento), telefono,
-                                     email, str(fecha_primera_consulta), patologia,
-                                     modalidad, tipo, obra_social, moneda,
-                                     precio_sesion, pais_residencia)
-                    st.success(f"Paciente {nombre} {apellido} guardado correctamente.")
+                    pacientes_existentes = listar_pacientes()
+                    duplicado = any(
+                        p[1].lower() == nombre.lower() and p[2].lower() == apellido.lower()
+                        for p in pacientes_existentes
+                    )
+                    if duplicado:
+                        st.error(f"Ya existe un paciente con el nombre {nombre} {apellido}.")
+                    else:
+                        agregar_paciente(nombre, apellido, str(fecha_nacimiento), telefono,
+                                         email, str(fecha_primera_consulta), patologia,
+                                         modalidad, tipo, obra_social, moneda,
+                                         precio_sesion, pais_residencia)
+                        st.success(f"Paciente {nombre} {apellido} guardado correctamente.")
                 else:
                     st.error("Nombre y apellido son obligatorios.")
 
