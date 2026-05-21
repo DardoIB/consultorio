@@ -18,7 +18,6 @@ menu = st.sidebar.selectbox("Menú", [
     "Reportes"
 ])
 
-# ─── RESUMEN ───────────────────────────────────────────────
 if menu == "Resumen":
     st.subheader("Resumen general")
     pacientes = listar_pacientes()
@@ -26,13 +25,11 @@ if menu == "Resumen":
     col1, col2 = st.columns(2)
     col1.metric("Pacientes activos", len(pacientes))
     col2.metric("Sesiones sin cobrar", len(pendientes))
-
     if pendientes:
         st.markdown("### Sesiones pendientes de cobro")
         for s in pendientes:
             st.write(f"**{s[2]}, {s[1]}** — {s[3]} | {s[6]} {s[4]}")
 
-# ─── PACIENTES ─────────────────────────────────────────────
 elif menu == "Pacientes":
     tab1, tab2 = st.tabs(["Listado y edición", "Nuevo Paciente"])
 
@@ -51,20 +48,18 @@ elif menu == "Pacientes":
                 st.markdown("#### Datos del paciente")
                 nombre = st.text_input("Nombre", value=p[1])
                 apellido = st.text_input("Apellido", value=p[2])
-                
                 try:
                     fn = date.fromisoformat(p[3]) if p[3] else date(1980, 1, 1)
                 except:
                     fn = date(1980, 1, 1)
                 fecha_nacimiento = st.date_input(
-                    "Fecha de nacimiento (aaaa/mm/dd)",
+                    "Fecha de nacimiento",
                     value=fn,
                     min_value=date(1900, 1, 1),
-                    max_value=date(2030, 12, 31)
+                    max_value=date.today()
                 )
                 telefono = st.text_input("Teléfono", value=p[4] or "")
                 email = st.text_input("Email", value=p[5] or "")
-                
                 try:
                     fpc = date.fromisoformat(p[6]) if p[6] else date.today()
                 except:
@@ -72,8 +67,8 @@ elif menu == "Pacientes":
                 fecha_primera_consulta = st.date_input(
                     "Primera consulta",
                     value=fpc,
-                   min_value=date(2000, 1, 1),
-                   max_value=date(2030, 12, 31)
+                    min_value=date(2000, 1, 1),
+                    max_value=date(2030, 12, 31)
                 )
                 patologia = st.text_input("Patología / Motivo", value=p[7] or "")
                 modalidad = st.selectbox("Modalidad", ["presencial", "online"],
@@ -83,7 +78,7 @@ elif menu == "Pacientes":
                 obra_social = st.text_input("Obra social", value=p[10] or "")
                 moneda = st.selectbox("Moneda", ["ARS", "USD", "EUR"],
                     index=["ARS","USD","EUR"].index(p[11]) if p[11] in ["ARS","USD","EUR"] else 0)
-                precio_sesion = st.number_input("Precio por sesión", 
+                precio_sesion = st.number_input("Precio por sesión",
                     min_value=0.0, value=float(p[12] or 0))
                 pais_residencia = st.text_input("País de residencia", value=p[13] or "")
                 estado = st.selectbox("Estado", ["activo", "inactivo"],
@@ -94,7 +89,6 @@ elif menu == "Pacientes":
                                       telefono, email, patologia, modalidad, tipo,
                                       obra_social, moneda, precio_sesion,
                                       pais_residencia, estado)
-                   
                     st.success("Paciente actualizado correctamente.")
                     st.rerun()
 
@@ -113,19 +107,18 @@ elif menu == "Pacientes":
             nombre = st.text_input("Nombre")
             apellido = st.text_input("Apellido")
             fecha_nacimiento = st.date_input(
-                    "Fecha de nacimiento (aaaa/mm/dd)",
-                    value=fn,
-                    min_value=date(1900, 1, 1),
-                    max_value=date(2030, 12, 31)
+                "Fecha de nacimiento",
+                value=date(1980, 1, 1),
+                min_value=date(1900, 1, 1),
+                max_value=date.today()
             )
             telefono = st.text_input("Teléfono")
             email = st.text_input("Email")
-
             fecha_primera_consulta = st.date_input(
                 "Primera consulta",
-                 value=fpc,
-                 min_value=date(2000, 1, 1),
-                 max_value=date(2030, 12, 31)
+                value=date.today(),
+                min_value=date(2000, 1, 1),
+                max_value=date(2030, 12, 31)
             )
             patologia = st.text_input("Patología / Motivo de consulta")
             modalidad = st.selectbox("Modalidad", ["presencial", "online"])
@@ -135,7 +128,7 @@ elif menu == "Pacientes":
             precio_sesion = st.number_input("Precio por sesión", min_value=0.0)
             pais_residencia = st.text_input("País de residencia")
 
-      if st.form_submit_button("Guardar paciente"):
+            if st.form_submit_button("Guardar paciente"):
                 if nombre and apellido:
                     pacientes_existentes = listar_pacientes()
                     duplicado = any(
@@ -153,7 +146,6 @@ elif menu == "Pacientes":
                 else:
                     st.error("Nombre y apellido son obligatorios.")
 
-# ─── NUEVA SESIÓN ──────────────────────────────────────────
 elif menu == "Nueva Sesión":
     st.subheader("Registrar sesión")
     pacientes = listar_pacientes()
@@ -168,7 +160,8 @@ elif menu == "Nueva Sesión":
             fecha = st.date_input(
                 "Fecha de sesión",
                 value=date.today(),
-                format="DD/MM/YYYY"
+                min_value=date(2000, 1, 1),
+                max_value=date(2030, 12, 31)
             )
             numero_sesion = st.number_input("Número de sesión", min_value=1, step=1)
             modalidad = st.selectbox("Modalidad", ["presencial", "online"])
@@ -183,7 +176,6 @@ elif menu == "Nueva Sesión":
                                monto_paciente, monto_obra_social, moneda, cobrado, forma_cobro)
                 st.success("Sesión registrada correctamente.")
 
-# ─── SESIONES PENDIENTES ───────────────────────────────────
 elif menu == "Sesiones Pendientes":
     st.subheader("Sesiones sin cobrar")
     pendientes = listar_sesiones_pendientes()
@@ -197,7 +189,6 @@ elif menu == "Sesiones Pendientes":
     else:
         st.success("No hay sesiones pendientes de cobro.")
 
-# ─── REPORTES ──────────────────────────────────────────────
 elif menu == "Reportes":
     st.subheader("Reportes de ingresos")
     anio = st.number_input("Año", min_value=2020, max_value=2030, value=2026, step=1)
@@ -214,29 +205,21 @@ elif menu == "Reportes":
         for mes, moneda, total_mes in datos_mes:
             st.markdown(f"### {meses.get(mes, mes)} — {moneda} {total_mes:,.2f}")
             datos_pac = ingresos_por_paciente(anio, mes)
-            
-            particular_total = 0
             os_dict = {}
-            
             for d in datos_pac:
                 nombre_pac = f"{d[1]}, {d[0]}"
-                os = d[2] if d[2] else "Particular"
+                os = d[2] if d[2] else None
                 sesiones = d[4]
                 total = d[5]
-                
-                if not d[2]:
-                    particular_total += total
+                if not os:
                     st.write(f"&nbsp;&nbsp;&nbsp;{nombre_pac} | {sesiones} ses. | {moneda} {total:,.2f}")
                 else:
                     if os not in os_dict:
                         os_dict[os] = {"total": 0, "pacientes": []}
                     os_dict[os]["total"] += total
                     os_dict[os]["pacientes"].append((nombre_pac, sesiones, total))
-            
-            if os_dict:
-                for os_nombre, os_data in os_dict.items():
-                    st.markdown(f"**Obra Social: {os_nombre}** — subtotal {moneda} {os_data['total']:,.2f}")
-                    for pac, ses, tot in os_data["pacientes"]:
-                        st.write(f"&nbsp;&nbsp;&nbsp;{pac} | {ses} ses. | {moneda} {tot:,.2f}")
-            
+            for os_nombre, os_data in os_dict.items():
+                st.markdown(f"**Obra Social: {os_nombre}** — subtotal {moneda} {os_data['total']:,.2f}")
+                for pac, ses, tot in os_data["pacientes"]:
+                    st.write(f"&nbsp;&nbsp;&nbsp;{pac} | {ses} ses. | {moneda} {tot:,.2f}")
             st.markdown("---")
