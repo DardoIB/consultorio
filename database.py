@@ -47,6 +47,11 @@ def crear_tablas():
             FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
         )
     """)
+    # Migración: agregar nro_afiliado si no existe
+    try:
+        cursor.execute("ALTER TABLE paciente ADD COLUMN nro_afiliado TEXT")
+    except:
+        pass
 
     conn.commit()
     conn.close()
