@@ -27,6 +27,7 @@ def crear_tablas():
             moneda TEXT,
             precio_sesion REAL,
             pais_residencia TEXT,
+            nro_afiliado TEXT,
             estado TEXT DEFAULT 'activo'
         )
     """)
