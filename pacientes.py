@@ -2,18 +2,18 @@ from database import get_connection
 
 def agregar_paciente(nombre, apellido, fecha_nacimiento, telefono, email,
                      fecha_primera_consulta, patologia, modalidad, tipo,
-                     obra_social, moneda, precio_sesion, pais_residencia):
+                     obra_social, nro_afiliado, moneda, precio_sesion, pais_residencia):
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
         INSERT INTO paciente (nombre, apellido, fecha_nacimiento, telefono, email,
                               fecha_primera_consulta, patologia, modalidad, tipo,
-                              obra_social, moneda, precio_sesion, pais_residencia)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                              obra_social, nro_afiliado, moneda, precio_sesion, pais_residencia)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (nombre, apellido, fecha_nacimiento, telefono, email,
           fecha_primera_consulta, patologia, modalidad, tipo,
-          obra_social, moneda, precio_sesion, pais_residencia))
+          obra_social, nro_afiliado, moneda, precio_sesion, pais_residencia))
 
     conn.commit()
     conn.close()
@@ -44,7 +44,7 @@ def obtener_paciente(id_paciente):
     return paciente
 
 def modificar_paciente(id_paciente, nombre, apellido, fecha_nacimiento, telefono,
-                       email, patologia, modalidad, tipo, obra_social,
+                       email, patologia, modalidad, tipo, obra_social, nro_afiliado,
                        moneda, precio_sesion, pais_residencia, estado):
     conn = get_connection()
     cursor = conn.cursor()
@@ -52,11 +52,11 @@ def modificar_paciente(id_paciente, nombre, apellido, fecha_nacimiento, telefono
     cursor.execute("""
         UPDATE paciente SET nombre=?, apellido=?, fecha_nacimiento=?, telefono=?,
                email=?, patologia=?, modalidad=?, tipo=?, obra_social=?,
-               moneda=?, precio_sesion=?, pais_residencia=?, estado=?
+               nro_afiliado=?, moneda=?, precio_sesion=?, pais_residencia=?, estado=?
         WHERE id_paciente=?
     """, (nombre, apellido, fecha_nacimiento, telefono, email, patologia,
-          modalidad, tipo, obra_social, moneda, precio_sesion, pais_residencia,
-          estado, id_paciente))
+          modalidad, tipo, obra_social, nro_afiliado, moneda, precio_sesion,
+          pais_residencia, estado, id_paciente))
 
     conn.commit()
     conn.close()
