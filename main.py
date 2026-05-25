@@ -254,12 +254,15 @@ elif menu == "Nueva Sesión":
             cobrado = st.selectbox("¿Cobrado?", ["no", "si"])
             forma_cobro = st.selectbox("Forma de cobro",
                 ["efectivo", "transferencia", "tarjeta débito", "tarjeta crédito", "obra social"])
-                 
-        if st.form_submit_button("Registrar sesión"):
+
+            if st.form_submit_button("Registrar sesión"):
                 agregar_sesion(id_paciente, str(fecha), nro_sesion, modalidad,
                                monto_paciente, monto_obra_social, moneda, cobrado, forma_cobro)
                 st.session_state["msg_sesion"] = f"✅ Sesión {nro_sesion} de {nombre_completo} registrada correctamente."
                 st.rerun()
+
+        if "msg_sesion" in st.session_state:
+            st.success(st.session_state.pop("msg_sesion"))
 
 elif menu == "Sesiones Pendientes":
     st.subheader("Sesiones sin cobrar")
