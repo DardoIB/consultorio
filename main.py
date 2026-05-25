@@ -261,7 +261,7 @@ elif menu == "Nueva Sesión":
                 st.session_state["msg_sesion"] = f"✅ Sesión {nro_sesion} de {nombre_completo} registrada correctamente."
                 st.rerun()
 
- elif menu == "Sesiones Pendientes":
+elif menu == "Sesiones Pendientes":
     st.subheader("Sesiones sin cobrar")
     pendientes = listar_sesiones_pendientes()
     if pendientes:
