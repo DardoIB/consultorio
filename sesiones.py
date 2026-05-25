@@ -59,3 +59,23 @@ def marcar_cobrado(id_sesion, forma_cobro):
 
     conn.commit()
     conn.close()
+
+def ultimo_numero_sesion(id_paciente):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT MAX(numero_sesion) FROM sesion WHERE id_paciente = ?
+    """, (id_paciente,))
+    resultado = cursor.fetchone()[0]
+    conn.close()
+    return (resultado or 0) + 1
+
+def ultima_sesion_fecha(id_paciente):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT MAX(fecha) FROM sesion WHERE id_paciente = ?
+    """, (id_paciente,))
+    resultado = cursor.fetchone()[0]
+    conn.close()
+    return resultado
