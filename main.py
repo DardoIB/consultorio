@@ -253,15 +253,15 @@ elif menu == "Nueva Sesión":
                 monto_obra_social = 0.0
             cobrado = st.selectbox("¿Cobrado?", ["no", "si"])
             forma_cobro = st.selectbox("Forma de cobro",
-                ["efectivo", "transferencia", "obra social"])
-
-            if st.form_submit_button("Registrar sesión"):
+                ["efectivo", "transferencia", "tarjeta débito", "tarjeta crédito", "obra social"])
+                 
+        if st.form_submit_button("Registrar sesión"):
                 agregar_sesion(id_paciente, str(fecha), nro_sesion, modalidad,
                                monto_paciente, monto_obra_social, moneda, cobrado, forma_cobro)
-                st.success(f"Sesión {nro_sesion} registrada correctamente.")
+                st.session_state["msg_sesion"] = f"✅ Sesión {nro_sesion} de {nombre_completo} registrada correctamente."
                 st.rerun()
 
-elif menu == "Sesiones Pendientes":
+ elif menu == "Sesiones Pendientes":
     st.subheader("Sesiones sin cobrar")
     pendientes = listar_sesiones_pendientes()
     if pendientes:
