@@ -33,7 +33,7 @@ if menu == "Resumen":
 elif menu == "Pacientes":
     tab1, tab2 = st.tabs(["Listado y edición", "Nuevo Paciente"])
 
-   with tab1:
+    with tab1:
         st.subheader("Pacientes activos")
         pacientes = listar_pacientes()
         if not pacientes:
