@@ -109,12 +109,13 @@ elif menu == "Pacientes":
                                       pais_residencia, estado)
                     st.success("Paciente actualizado correctamente.")
 
-            st.markdown("#### Sesiones del paciente")
+            st.markdown("#### Historial de sesiones")
             sesiones = listar_sesiones_paciente(id_sel)
-            if sesiones:
-                for s in sesiones:
+            sesiones_ord = sorted(sesiones, key=lambda x: x[2])
+            if sesiones_ord:
+                for s in sesiones_ord:
                     cobrado_txt = "✅" if s[7] == "si" else "❌"
-                    st.write(f"Sesión {s[2]} | {s[1]} | {s[3]} | {s[6]} {s[4]} pac. / {s[5]} OS | {cobrado_txt} {s[8]}")
+                    st.write(f"**Ses. {s[2]}** | {s[1]} | {s[3]} | {s[6]} {s[4]:.2f} pac. / {s[5] or 0:.2f} OS | {cobrado_txt} {s[8] or ''}")
             else:
                 st.info("Sin sesiones registradas.")
 
@@ -233,6 +234,16 @@ elif menu == "Nueva Sesión":
         col2.markdown(f"**Antigüedad:** {antiguedad}")
         col3.markdown(f"**Última sesión:** {ultima_fecha or 'Sin sesiones previas'}")
         col3.markdown(f"**Próximo nro sesión:** {nro_sesion}")
+        st.markdown("---")
+
+        # Últimas 5 sesiones del paciente
+        from sesiones import listar_sesiones_paciente
+        ultimas = listar_sesiones_paciente(id_paciente)[:5]
+        if ultimas:
+            st.markdown("#### Últimas sesiones")
+            for s in ultimas:
+                cobrado_txt = "✅" if s[7] == "si" else "❌"
+                st.write(f"Sesión {s[2]} | {s[1]} | {s[3]} | {s[6]} {s[4]} pac. {cobrado_txt}")
         st.markdown("---")
 
         with st.form("form_sesion"):
