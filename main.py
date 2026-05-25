@@ -44,114 +44,45 @@ elif menu == "Pacientes":
             id_sel = opciones[seleccion]
             p = obtener_paciente(id_sel)
 
-            with st.form("form_editar"):
-                st.markdown("#### Datos del paciente")
-                nombre = st.text_input("Nombre *", value=p[1])
-                apellido = st.text_input("Apellido *", value=p[2])
-                try:
-                    fn = date.fromisoformat(p[3]) if p[3] else date(1980, 1, 1)
-                except:
-                    fn = date(1980, 1, 1)
-                fecha_nacimiento = st.date_input(
-                    "Fecha de nacimiento *",
-                    value=fn,
-                    min_value=date(1900, 1, 1),
-                    max_value=date.today()
-                )
-                telefono = st.text_input("Teléfono *", value=p[4] or "")
-                email = st.text_input("Email *", value=p[5] or "")
-                try:
-                    fpc = date.fromisoformat(p[6]) if p[6] else date.today()
-                except:
-                    fpc = date.today()
-                fecha_primera_consulta = st.date_input(
-                    "Primera consulta *",
-                    value=fpc,
-                    min_value=date(2000, 1, 1),
-                    max_value=date(2030, 12, 31)
-                )
-                patologia = st.text_input("Patología / Motivo", value=p[7] or "")
-                modalidad = st.selectbox("Modalidad *", ["presencial", "online"],
-                    index=0 if p[8] == "presencial" else 1)
-                tipo = st.selectbox("Tipo *", ["particular", "obra social"],
-                    index=0 if p[9] == "particular" else 1)
+            try:
+                fn = date.fromisoformat(p[3]) if p[3] else date(1980, 1, 1)
+            except:
+                fn = date(1980, 1, 1)
+            try:
+                fpc = date.fromisoformat(p[6]) if p[6] else date.today()
+            except:
+                fpc = date.today()
 
-                if tipo == "obra social":
-                    obra_social = st.text_input("Obra social", value=p[10] or "")
-                    nro_afiliado = st.text_input("Nro de afiliado", value=p[15] or "" if len(p) > 15 else "")
-                else:
-                    st.text_input("Obra social", value="N/A", disabled=True)
-                    st.text_input("Nro de afiliado", value="N/A", disabled=True)
-                    obra_social = None
-                    nro_afiliado = None
+            st.markdown("#### Datos del paciente")
+            nombre = st.text_input("Nombre *", value=p[1], key="e_nombre")
+            apellido = st.text_input("Apellido *", value=p[2], key="e_apellido")
+            fecha_nacimiento = st.date_input("Fecha de nacimiento *", value=fn,
+                min_value=date(1900, 1, 1), max_value=date.today(), key="e_fn")
+            telefono = st.text_input("Teléfono *", value=p[4] or "", key="e_tel")
+            email = st.text_input("Email *", value=p[5] or "", key="e_email")
+            fecha_primera_consulta = st.date_input("Primera consulta *", value=fpc,
+                min_value=date(2000, 1, 1), max_value=date(2030, 12, 31), key="e_fpc")
+            patologia = st.text_input("Patología / Motivo", value=p[7] or "", key="e_pat")
+            modalidad = st.selectbox("Modalidad *", ["presencial", "online"],
+                index=0 if p[8] == "presencial" else 1, key="e_mod")
+            tipo = st.selectbox("Tipo *", ["particular", "obra social"],
+                index=0 if p[9] == "particular" else 1, key="e_tipo")
 
-                moneda = st.selectbox("Moneda *", ["ARS", "USD", "EUR"],
-                    index=["ARS","USD","EUR"].index(p[11]) if p[11] in ["ARS","USD","EUR"] else 0)
-                precio_sesion = st.number_input("Precio por sesión *",
-                    min_value=0.0, value=float(p[12] or 0))
-                pais_residencia = st.text_input("País de residencia *", value=p[13] or "")
-                estado = st.selectbox("Estado", ["activo", "inactivo"],
-                    index=0 if p[14] == "activo" else 1)
+            es_os = tipo == "obra social"
+            obra_social = st.text_input("Obra social", value=p[10] or "",
+                disabled=not es_os, key="e_os")
+            nro_afiliado = st.text_input("Nro de afiliado", value=p[15] or "" if len(p) > 15 else "",
+                disabled=not es_os, key="e_nro")
 
-                if st.form_submit_button("Guardar cambios"):
-                    errores = []
-                    if not nombre: errores.append("Nombre es obligatorio.")
-                    if not apellido: errores.append("Apellido es obligatorio.")
-                    if not telefono: errores.append("Teléfono es obligatorio.")
-                    if not email: errores.append("Email es obligatorio.")
-                    if not pais_residencia: errores.append("País de residencia es obligatorio.")
-                    if precio_sesion <= 0: errores.append("El precio de sesión debe ser mayor a 0.")
-                    if fecha_primera_consulta <= fecha_nacimiento:
-                        errores.append("La primera consulta debe ser posterior a la fecha de nacimiento.")
-                    if errores:
-                        for e in errores:
-                            st.error(e)
-                    else:
-                        modificar_paciente(id_sel, nombre, apellido, str(fecha_nacimiento),
-                                          telefono, email, patologia, modalidad, tipo,
-                                          obra_social, nro_afiliado, moneda, precio_sesion,
-                                          pais_residencia, estado)
-                        st.success("Paciente actualizado correctamente.")
-                        st.rerun()
+            moneda = st.selectbox("Moneda *", ["ARS", "USD", "EUR"],
+                index=["ARS","USD","EUR"].index(p[11]) if p[11] in ["ARS","USD","EUR"] else 0, key="e_mon")
+            precio_sesion = st.number_input("Precio por sesión *",
+                min_value=0.0, value=float(p[12] or 0), key="e_precio")
+            pais_residencia = st.text_input("País de residencia *", value=p[13] or "", key="e_pais")
+            estado = st.selectbox("Estado", ["activo", "inactivo"],
+                index=0 if p[14] == "activo" else 1, key="e_estado")
 
-            st.markdown("#### Sesiones del paciente")
-            sesiones = listar_sesiones_paciente(id_sel)
-            if sesiones:
-                for s in sesiones:
-                    cobrado_txt = "✅" if s[7] == "si" else "❌"
-                    st.write(f"Sesión {s[2]} | {s[1]} | {s[3]} | {s[6]} {s[4]} pac. / {s[5]} OS | {cobrado_txt} {s[8]}")
-            else:
-                st.info("Sin sesiones registradas.")
-
-    with tab2:
-        st.subheader("Nuevo paciente")
-        with st.form("form_paciente"):
-            nombre = st.text_input("Nombre *")
-            apellido = st.text_input("Apellido *")
-            fecha_nacimiento = st.date_input(
-                "Fecha de nacimiento *",
-                value=date(1980, 1, 1),
-                min_value=date(1900, 1, 1),
-                max_value=date.today()
-            )
-            telefono = st.text_input("Teléfono *")
-            email = st.text_input("Email *")
-            fecha_primera_consulta = st.date_input(
-                "Primera consulta *",
-                value=date.today(),
-                min_value=date(2000, 1, 1),
-                max_value=date(2030, 12, 31)
-            )
-            patologia = st.text_input("Patología / Motivo de consulta")
-            modalidad = st.selectbox("Modalidad *", ["presencial", "online"])
-            tipo = st.selectbox("Tipo *", ["particular", "obra social"])
-            obra_social = st.text_input("Obra social (solo si aplica)")
-            nro_afiliado = st.text_input("Nro de afiliado (solo si aplica)")
-            moneda = st.selectbox("Moneda *", ["ARS", "USD", "EUR"])
-            precio_sesion = st.number_input("Precio por sesión *", min_value=0.0)
-            pais_residencia = st.text_input("País de residencia *")
-
-            if st.form_submit_button("Guardar paciente"):
+            if st.button("Guardar cambios", key="btn_editar"):
                 errores = []
                 if not nombre: errores.append("Nombre es obligatorio.")
                 if not apellido: errores.append("Apellido es obligatorio.")
@@ -165,21 +96,83 @@ elif menu == "Pacientes":
                     for e in errores:
                         st.error(e)
                 else:
-                    pacientes_existentes = listar_pacientes()
-                    duplicado = any(
-                        p[1].lower() == nombre.lower() and p[2].lower() == apellido.lower()
-                        for p in pacientes_existentes
-                    )
-                    if duplicado:
-                        st.error(f"Ya existe un paciente con el nombre {nombre} {apellido}.")
-                    else:
-                        os_guardar = obra_social if tipo == "obra social" else None
-                        nro_guardar = nro_afiliado if tipo == "obra social" else None
-                        agregar_paciente(nombre, apellido, str(fecha_nacimiento), telefono,
-                                         email, str(fecha_primera_consulta), patologia,
-                                         modalidad, tipo, os_guardar, nro_guardar, moneda,
-                                         precio_sesion, pais_residencia)
-                        st.success(f"Paciente {nombre} {apellido} guardado correctamente.")
+                    os_guardar = obra_social if es_os else None
+                    nro_guardar = nro_afiliado if es_os else None
+                    modificar_paciente(id_sel, nombre, apellido, str(fecha_nacimiento),
+                                      telefono, email, patologia, modalidad, tipo,
+                                      os_guardar, nro_guardar, moneda, precio_sesion,
+                                      pais_residencia, estado)
+                    st.success("Paciente actualizado correctamente.")
+                    st.rerun()
+
+            st.markdown("#### Sesiones del paciente")
+            sesiones = listar_sesiones_paciente(id_sel)
+            if sesiones:
+                for s in sesiones:
+                    cobrado_txt = "✅" if s[7] == "si" else "❌"
+                    st.write(f"Sesión {s[2]} | {s[1]} | {s[3]} | {s[6]} {s[4]} pac. / {s[5]} OS | {cobrado_txt} {s[8]}")
+            else:
+                st.info("Sin sesiones registradas.")
+
+    with tab2:
+        st.subheader("Nuevo paciente")
+
+        if "nuevo_tipo" not in st.session_state:
+            st.session_state.nuevo_tipo = "particular"
+
+        nombre = st.text_input("Nombre *", key="n_nombre")
+        apellido = st.text_input("Apellido *", key="n_apellido")
+        fecha_nacimiento = st.date_input("Fecha de nacimiento *",
+            value=date(1980, 1, 1), min_value=date(1900, 1, 1),
+            max_value=date.today(), key="n_fn")
+        telefono = st.text_input("Teléfono *", key="n_tel")
+        email = st.text_input("Email *", key="n_email")
+        fecha_primera_consulta = st.date_input("Primera consulta *",
+            value=date.today(), min_value=date(2000, 1, 1),
+            max_value=date(2030, 12, 31), key="n_fpc")
+        patologia = st.text_input("Patología / Motivo de consulta", key="n_pat")
+        modalidad = st.selectbox("Modalidad *", ["presencial", "online"], key="n_mod")
+        tipo = st.selectbox("Tipo *", ["particular", "obra social"],
+            key="n_tipo",
+            on_change=lambda: st.session_state.update({"nuevo_tipo": st.session_state.n_tipo}))
+
+        es_os_nuevo = st.session_state.n_tipo == "obra social"
+        obra_social = st.text_input("Obra social", disabled=not es_os_nuevo, key="n_os")
+        nro_afiliado = st.text_input("Nro de afiliado", disabled=not es_os_nuevo, key="n_nro")
+
+        moneda = st.selectbox("Moneda *", ["ARS", "USD", "EUR"], key="n_mon")
+        precio_sesion = st.number_input("Precio por sesión *", min_value=0.0, key="n_precio")
+        pais_residencia = st.text_input("País de residencia *", key="n_pais")
+
+        if st.button("Guardar paciente", key="btn_nuevo"):
+            errores = []
+            if not nombre: errores.append("Nombre es obligatorio.")
+            if not apellido: errores.append("Apellido es obligatorio.")
+            if not telefono: errores.append("Teléfono es obligatorio.")
+            if not email: errores.append("Email es obligatorio.")
+            if not pais_residencia: errores.append("País de residencia es obligatorio.")
+            if precio_sesion <= 0: errores.append("El precio de sesión debe ser mayor a 0.")
+            if fecha_primera_consulta <= fecha_nacimiento:
+                errores.append("La primera consulta debe ser posterior a la fecha de nacimiento.")
+            if errores:
+                for e in errores:
+                    st.error(e)
+            else:
+                pacientes_existentes = listar_pacientes()
+                duplicado = any(
+                    p[1].lower() == nombre.lower() and p[2].lower() == apellido.lower()
+                    for p in pacientes_existentes
+                )
+                if duplicado:
+                    st.error(f"Ya existe un paciente con el nombre {nombre} {apellido}.")
+                else:
+                    os_guardar = obra_social if es_os_nuevo else None
+                    nro_guardar = nro_afiliado if es_os_nuevo else None
+                    agregar_paciente(nombre, apellido, str(fecha_nacimiento), telefono,
+                                     email, str(fecha_primera_consulta), patologia,
+                                     modalidad, tipo, os_guardar, nro_guardar, moneda,
+                                     precio_sesion, pais_residencia)
+                    st.success(f"Paciente {nombre} {apellido} guardado correctamente.")
 
 elif menu == "Nueva Sesión":
     st.subheader("Registrar sesión")
@@ -192,12 +185,8 @@ elif menu == "Nueva Sesión":
         id_paciente = opciones[seleccion]
 
         with st.form("form_sesion"):
-            fecha = st.date_input(
-                "Fecha de sesión",
-                value=date.today(),
-                min_value=date(2000, 1, 1),
-                max_value=date(2030, 12, 31)
-            )
+            fecha = st.date_input("Fecha de sesión", value=date.today(),
+                min_value=date(2000, 1, 1), max_value=date(2030, 12, 31))
             numero_sesion = st.number_input("Número de sesión", min_value=1, step=1)
             modalidad = st.selectbox("Modalidad", ["presencial", "online"])
             moneda = st.selectbox("Moneda", ["ARS", "USD", "EUR"])
@@ -232,7 +221,6 @@ elif menu == "Reportes":
         "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
         "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
     }
-
     datos_mes = ingresos_por_mes(anio)
     if not datos_mes:
         st.info("Sin datos para ese año.")
