@@ -185,25 +185,81 @@ elif menu == "Nueva Sesión":
     if not pacientes:
         st.warning("Primero cargá un paciente.")
     else:
+        from sesiones import ultimo_numero_sesion, ultima_sesion_fecha
+
         opciones = {f"{p[2]}, {p[1]}": p[0] for p in pacientes}
-        seleccion = st.selectbox("Paciente", list(opciones.keys()))
+        seleccion = st.selectbox("Paciente", list(opciones.keys()), key="sel_sesion")
         id_paciente = opciones[seleccion]
+
+        # Traer datos completos del paciente
+        p = obtener_paciente(id_paciente)
+        nombre_completo = f"{p[2]}, {p[1]}"
+        es_os = p[9] == "obra social"
+
+        # Calcular edad
+        hoy = date.today()
+        try:
+            fn = date.fromisoformat(p[3]) if p[3] else None
+            if fn:
+                edad = hoy.year - fn.year - ((hoy.month, hoy.day) < (fn.month, fn.day))
+            else:
+                edad = None
+        except:
+            edad = None
+
+        # Calcular antigüedad
+        try:
+            fpc = date.fromisoformat(p[6]) if p[6] else None
+            if fpc:
+                anios = hoy.year - fpc.year - ((hoy.month, hoy.day) < (fpc.month, fpc.day))
+                meses_ant = hoy.month - fpc.month if hoy.month >= fpc.month else 12 + hoy.month - fpc.month
+                antiguedad = f"{anios} año(s) y {meses_ant} mes(es)"
+            else:
+                antiguedad = "Sin datos"
+        except:
+            antiguedad = "Sin datos"
+
+        ultima_fecha = ultima_sesion_fecha(id_paciente)
+        nro_sesion = ultimo_numero_sesion(id_paciente)
+
+        # Panel informativo del paciente
+        st.markdown("---")
+        col1, col2, col3 = st.columns(3)
+        col1.markdown(f"**Tipo:** {p[9].capitalize()}")
+        if es_os:
+            col1.markdown(f"**Obra social:** {p[10] or '-'}")
+            col1.markdown(f"**Nro afiliado:** {p[15] or '-'}" if len(p) > 15 else "**Nro afiliado:** -")
+        col2.markdown(f"**Edad:** {edad} años" if edad else "**Edad:** Sin datos")
+        col2.markdown(f"**Antigüedad:** {antiguedad}")
+        col3.markdown(f"**Última sesión:** {ultima_fecha or 'Sin sesiones previas'}")
+        col3.markdown(f"**Próximo nro sesión:** {nro_sesion}")
+        st.markdown("---")
 
         with st.form("form_sesion"):
             fecha = st.date_input("Fecha de sesión", value=date.today(),
                 min_value=date(2000, 1, 1), max_value=date(2030, 12, 31))
-            numero_sesion = st.number_input("Número de sesión", min_value=1, step=1)
+            st.number_input("Número de sesión", value=nro_sesion,
+                min_value=nro_sesion, max_value=nro_sesion, disabled=True)
             modalidad = st.selectbox("Modalidad", ["presencial", "online"])
-            moneda = st.selectbox("Moneda", ["ARS", "USD", "EUR"])
-            monto_paciente = st.number_input("Monto paciente", min_value=0.0)
-            monto_obra_social = st.number_input("Monto obra social", min_value=0.0)
+            moneda = st.selectbox("Moneda", ["ARS", "USD", "EUR"],
+                index=["ARS","USD","EUR"].index(p[11]) if p[11] in ["ARS","USD","EUR"] else 0)
+            monto_paciente = st.number_input("Monto paciente",
+                min_value=0.0, value=float(p[12] or 0))
+            if es_os:
+                monto_obra_social = st.number_input("Monto obra social", min_value=0.0)
+            else:
+                st.number_input("Monto obra social", min_value=0.0,
+                    value=0.0, disabled=True)
+                monto_obra_social = 0.0
             cobrado = st.selectbox("¿Cobrado?", ["no", "si"])
-            forma_cobro = st.selectbox("Forma de cobro", ["efectivo", "transferencia", "obra social"])
+            forma_cobro = st.selectbox("Forma de cobro",
+                ["efectivo", "transferencia", "obra social"])
 
             if st.form_submit_button("Registrar sesión"):
-                agregar_sesion(id_paciente, str(fecha), numero_sesion, modalidad,
+                agregar_sesion(id_paciente, str(fecha), nro_sesion, modalidad,
                                monto_paciente, monto_obra_social, moneda, cobrado, forma_cobro)
-                st.success("Sesión registrada correctamente.")
+                st.success(f"Sesión {nro_sesion} registrada correctamente.")
+                st.rerun()
 
 elif menu == "Sesiones Pendientes":
     st.subheader("Sesiones sin cobrar")
