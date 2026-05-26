@@ -335,7 +335,6 @@ elif menu == "Nueva Sesión":
         col2.markdown(f"**Antigüedad:** {antiguedad}")
         col3.markdown(f"**Última sesión:** {ultima_fecha or 'Sin sesiones previas'}")
         col3.markdown(f"**Próximo nro sesión:** {nro_sesion}")
-        st.markdown("---")
 
         # Últimas 5 sesiones del paciente
         from sesiones import listar_sesiones_paciente
