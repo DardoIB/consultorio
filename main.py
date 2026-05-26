@@ -325,7 +325,6 @@ elif menu == "Nueva Sesión":
         nro_sesion = ultimo_numero_sesion(id_paciente)
 
         # Panel informativo del paciente
-        st.markdown("---")
         col1, col2, col3 = st.columns(3)
         col1.markdown(f"**Tipo:** {p[9].capitalize()}")
         if es_os:
