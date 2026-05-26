@@ -8,6 +8,20 @@ from datetime import date
 crear_tablas()
 
 st.set_page_config(page_title="Consultorio", layout="wide")
+
+st.markdown("""
+    <style>
+        .block-container { padding-top: 1rem; padding-bottom: 0rem; }
+        div[data-testid="stVerticalBlock"] > div { margin-bottom: -0.5rem; }
+        div[data-testid="stTextInput"] { margin-bottom: -0.5rem; }
+        div[data-testid="stSelectbox"] { margin-bottom: -0.5rem; }
+        div[data-testid="stNumberInput"] { margin-bottom: -0.5rem; }
+        div[data-testid="stDateInput"] { margin-bottom: -0.5rem; }
+        label { font-size: 0.85rem !important; }
+        .stButton button { margin-top: 0.5rem; }
+    </style>
+""", unsafe_allow_html=True)
+
 st.title("Consultorio Psicológico")
 
 menu = st.sidebar.selectbox("Menú", [
