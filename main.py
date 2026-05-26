@@ -63,6 +63,10 @@ st.markdown("""
         header { visibility: hidden; height: 0; }
         #MainMenu { visibility: hidden; }
         footer { visibility: hidden; }
+        /* Tab activa en negrita */
+        .stTabs [aria-selected="true"] {
+            font-weight: bold !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -178,8 +182,7 @@ elif menu == "Pacientes":
                 st.info("Sin sesiones registradas.")
 
     with tab2:
-        st.subheader("Nuevo paciente")
-
+    
         if "nuevo_tipo" not in st.session_state:
             st.session_state.nuevo_tipo = "particular"
 
