@@ -139,29 +139,49 @@ elif menu == "Pacientes":
         if "nuevo_tipo" not in st.session_state:
             st.session_state.nuevo_tipo = "particular"
 
-        nombre = st.text_input("Nombre *", key="n_nombre")
-        apellido = st.text_input("Apellido *", key="n_apellido")
-        fecha_nacimiento = st.date_input("Fecha de nacimiento *",
-            value=date(1980, 1, 1), min_value=date(1900, 1, 1),
-            max_value=date.today(), key="n_fn")
-        telefono = st.text_input("Teléfono *", key="n_tel")
-        email = st.text_input("Email *", key="n_email")
-        fecha_primera_consulta = st.date_input("Primera consulta *",
-            value=date.today(), min_value=date(2000, 1, 1),
-            max_value=date(2030, 12, 31), key="n_fpc")
-        patologia = st.text_input("Patología / Motivo de consulta", key="n_pat")
-        modalidad = st.selectbox("Modalidad *", ["presencial", "online"], key="n_mod")
-        tipo = st.selectbox("Tipo *", ["particular", "obra social"],
-            key="n_tipo",
-            on_change=lambda: st.session_state.update({"nuevo_tipo": st.session_state.n_tipo}))
+        col1, col2 = st.columns(2)
+        with col1:
+            nombre = st.text_input("Nombre *", key="n_nombre")
+        with col2:
+            apellido = st.text_input("Apellido *", key="n_apellido")
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            fecha_nacimiento = st.date_input("Fecha de nacimiento *",
+                value=date(1980, 1, 1), min_value=date(1900, 1, 1),
+                max_value=date.today(), key="n_fn")
+        with col2:
+            telefono = st.text_input("Teléfono *", key="n_tel")
+        with col3:
+            email = st.text_input("Email *", key="n_email")
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            fecha_primera_consulta = st.date_input("Primera consulta *",
+                value=date.today(), min_value=date(2000, 1, 1),
+                max_value=date(2030, 12, 31), key="n_fpc")
+        with col2:
+            modalidad = st.selectbox("Modalidad *", ["presencial", "online"], key="n_mod")
+        with col3:
+            tipo = st.selectbox("Tipo *", ["particular", "obra social"], key="n_tipo")
 
         es_os_nuevo = st.session_state.n_tipo == "obra social"
-        obra_social = st.text_input("Obra social", disabled=not es_os_nuevo, key="n_os")
-        nro_afiliado = st.text_input("Nro de afiliado", disabled=not es_os_nuevo, key="n_nro")
 
-        moneda = st.selectbox("Moneda *", ["ARS", "USD", "EUR"], key="n_mon")
-        precio_sesion = st.number_input("Precio por sesión *", min_value=0.0, key="n_precio")
-        pais_residencia = st.text_input("País de residencia *", key="n_pais")
+        col1, col2 = st.columns(2)
+        with col1:
+            obra_social = st.text_input("Obra social", disabled=not es_os_nuevo, key="n_os")
+        with col2:
+            nro_afiliado = st.text_input("Nro de afiliado", disabled=not es_os_nuevo, key="n_nro")
+
+        patologia = st.text_input("Patología / Motivo de consulta", key="n_pat")
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            moneda = st.selectbox("Moneda *", ["ARS", "USD", "EUR"], key="n_mon")
+        with col2:
+            precio_sesion = st.number_input("Precio por sesión *", min_value=0.0, key="n_precio")
+        with col3:
+            pais_residencia = st.text_input("País de residencia *", key="n_pais")
 
         if st.button("Guardar paciente", key="btn_nuevo"):
             errores = []
@@ -193,7 +213,6 @@ elif menu == "Pacientes":
                                      precio_sesion, pais_residencia)
                     st.success(f"Paciente {nombre} {apellido} guardado correctamente.")
                     st.rerun()
-
 elif menu == "Nueva Sesión":
     st.subheader("Registrar sesión")
     pacientes = listar_pacientes()
