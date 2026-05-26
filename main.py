@@ -348,24 +348,37 @@ elif menu == "Nueva Sesión":
         st.markdown("---")
 
         with st.form("form_sesion"):
-            fecha = st.date_input("Fecha de sesión", value=date.today(),
-                min_value=date(2000, 1, 1), max_value=date(2030, 12, 31))
-            st.number_input("Número de sesión", value=nro_sesion,
-                min_value=nro_sesion, max_value=nro_sesion, disabled=True)
-            modalidad = st.selectbox("Modalidad", ["presencial", "online"])
-            moneda = st.selectbox("Moneda", ["ARS", "USD", "EUR"],
-                index=["ARS","USD","EUR"].index(p[11]) if p[11] in ["ARS","USD","EUR"] else 0)
-            monto_paciente = st.number_input("Monto paciente",
-                min_value=0.0, value=float(p[12] or 0))
-            if es_os:
-                monto_obra_social = st.number_input("Monto obra social", min_value=0.0)
-            else:
-                st.number_input("Monto obra social", min_value=0.0,
-                    value=0.0, disabled=True)
-                monto_obra_social = 0.0
-            cobrado = st.selectbox("¿Cobrado?", ["no", "si"])
-            forma_cobro = st.selectbox("Forma de cobro",
-                ["efectivo", "transferencia", "tarjeta débito", "tarjeta crédito", "obra social"])
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                fecha = st.date_input("Fecha de sesión", value=date.today(),
+                    min_value=date(2000, 1, 1), max_value=date(2030, 12, 31))
+            with col2:
+                st.number_input("Número de sesión", value=nro_sesion,
+                    min_value=nro_sesion, max_value=nro_sesion, disabled=True)
+            with col3:
+                modalidad = st.selectbox("Modalidad", ["presencial", "online"])
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                moneda = st.selectbox("Moneda", ["ARS", "USD", "EUR"],
+                    index=["ARS","USD","EUR"].index(p[11]) if p[11] in ["ARS","USD","EUR"] else 0)
+            with col2:
+                monto_paciente = st.number_input("Monto paciente",
+                    min_value=0.0, value=float(p[12] or 0))
+            with col3:
+                if es_os:
+                    monto_obra_social = st.number_input("Monto obra social", min_value=0.0)
+                else:
+                    st.number_input("Monto obra social", min_value=0.0,
+                        value=0.0, disabled=True)
+                    monto_obra_social = 0.0
+
+            col1, col2 = st.columns(2)
+            with col1:
+                cobrado = st.selectbox("¿Cobrado?", ["no", "si"])
+            with col2:
+                forma_cobro = st.selectbox("Forma de cobro",
+                    ["efectivo", "transferencia", "tarjeta débito", "tarjeta crédito", "obra social"])
 
             if st.form_submit_button("Registrar sesión"):
                 agregar_sesion(id_paciente, str(fecha), nro_sesion, modalidad,
