@@ -345,8 +345,7 @@ elif menu == "Nueva Sesión":
             for s in ultimas:
                 cobrado_txt = "✅" if s[7] == "si" else "❌"
                 st.write(f"Sesión {s[2]} | {s[1]} | {s[3]} | {s[6]} {s[4]} pac. {cobrado_txt}")
-        st.markdown("---")
-
+        
         with st.form("form_sesion"):
             col1, col2, col3 = st.columns(3)
             with col1:
