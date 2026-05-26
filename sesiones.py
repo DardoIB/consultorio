@@ -79,3 +79,14 @@ def ultima_sesion_fecha(id_paciente):
     resultado = cursor.fetchone()[0]
     conn.close()
     return resultado
+  
+  def sesion_duplicada(id_paciente, fecha):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT COUNT(*) FROM sesion 
+        WHERE id_paciente = ? AND fecha = ?
+    """, (id_paciente, fecha))
+    resultado = cursor.fetchone()[0]
+    conn.close()
+    return resultado > 0
