@@ -79,8 +79,8 @@ def ultima_sesion_fecha(id_paciente):
     resultado = cursor.fetchone()[0]
     conn.close()
     return resultado
-  
-  def sesion_duplicada(id_paciente, fecha):
+
+def sesion_duplicada(id_paciente, fecha):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
