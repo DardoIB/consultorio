@@ -116,38 +116,60 @@ elif menu == "Pacientes":
                 fpc = date.today()
 
             st.markdown("#### Datos del paciente")
-            nombre = st.text_input("Nombre *", value=p[1], key=f"e_nombre_{id_sel}")
-            apellido = st.text_input("Apellido *", value=p[2], key=f"e_apellido_{id_sel}")
-            fecha_nacimiento = st.date_input("Fecha de nacimiento *", value=fn,
-                min_value=date(1900, 1, 1), max_value=date.today(), key=f"e_fn_{id_sel}")
-            telefono = st.text_input("Teléfono *", value=p[4] or "", key=f"e_tel_{id_sel}")
-            email = st.text_input("Email *", value=p[5] or "", key=f"e_email_{id_sel}")
-            fecha_primera_consulta = st.date_input("Primera consulta *", value=fpc,
-                min_value=date(2000, 1, 1), max_value=date(2030, 12, 31), key=f"e_fpc_{id_sel}")
-            patologia = st.text_input("Patología / Motivo", value=p[7] or "", key=f"e_pat_{id_sel}")
-            modalidad = st.selectbox("Modalidad *", ["presencial", "online"],
-                index=0 if p[8] == "presencial" else 1, key=f"e_mod_{id_sel}")
-            tipo = st.selectbox("Tipo *", ["particular", "obra social"],
-                index=0 if p[9] == "particular" else 1, key=f"e_tipo_{id_sel}")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                nombre = st.text_input("Nombre *", value=p[1], key=f"e_nombre_{id_sel}")
+            with col2:
+                apellido = st.text_input("Apellido *", value=p[2], key=f"e_apellido_{id_sel}")
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                fecha_nacimiento = st.date_input("Fecha de nacimiento *", value=fn,
+                    min_value=date(1900, 1, 1), max_value=date.today(), key=f"e_fn_{id_sel}")
+            with col2:
+                telefono = st.text_input("Teléfono *", value=p[4] or "", key=f"e_tel_{id_sel}")
+            with col3:
+                email = st.text_input("Email *", value=p[5] or "", key=f"e_email_{id_sel}")
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                fecha_primera_consulta = st.date_input("Primera consulta *", value=fpc,
+                    min_value=date(2000, 1, 1), max_value=date(2030, 12, 31), key=f"e_fpc_{id_sel}")
+            with col2:
+                modalidad = st.selectbox("Modalidad *", ["presencial", "online"],
+                    index=0 if p[8] == "presencial" else 1, key=f"e_mod_{id_sel}")
+            with col3:
+                tipo = st.selectbox("Tipo *", ["particular", "obra social"],
+                    index=0 if p[9] == "particular" else 1, key=f"e_tipo_{id_sel}")
 
             es_os = tipo == "obra social"
-            nro_afiliado_val = ""
-            if len(p) > 15 and p[15]:
-                nro_afiliado_val = p[15]
-            obra_social = st.text_input("Obra social", value=p[10] or "",
-                disabled=not es_os, key=f"e_os_{id_sel}")
-            nro_afiliado = st.text_input("Nro de afiliado", value=nro_afiliado_val,
-                disabled=not es_os, key=f"e_nro_{id_sel}")
+            nro_afiliado_val = p[15] if len(p) > 15 and p[15] else ""
 
-            moneda = st.selectbox("Moneda *", ["ARS", "USD", "EUR"],
-                index=["ARS","USD","EUR"].index(p[11]) if p[11] in ["ARS","USD","EUR"] else 0,
-                key=f"e_mon_{id_sel}")
-            precio_sesion = st.number_input("Precio por sesión *",
-                min_value=0.0, value=float(p[12] or 0), key=f"e_precio_{id_sel}")
-            pais_residencia = st.text_input("País de residencia *", value=p[13] or "",
-                key=f"e_pais_{id_sel}")
-            estado = st.selectbox("Estado", ["activo", "inactivo"],
-                index=0 if p[14] == "activo" else 1, key=f"e_estado_{id_sel}")
+            col1, col2 = st.columns(2)
+            with col1:
+                obra_social = st.text_input("Obra social", value=p[10] or "",
+                    disabled=not es_os, key=f"e_os_{id_sel}")
+            with col2:
+                nro_afiliado = st.text_input("Nro de afiliado", value=nro_afiliado_val,
+                    disabled=not es_os, key=f"e_nro_{id_sel}")
+
+            patologia = st.text_input("Patología / Motivo", value=p[7] or "", key=f"e_pat_{id_sel}")
+
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                moneda = st.selectbox("Moneda *", ["ARS", "USD", "EUR"],
+                    index=["ARS","USD","EUR"].index(p[11]) if p[11] in ["ARS","USD","EUR"] else 0,
+                    key=f"e_mon_{id_sel}")
+            with col2:
+                precio_sesion = st.number_input("Precio por sesión *",
+                    min_value=0.0, value=float(p[12] or 0), key=f"e_precio_{id_sel}")
+            with col3:
+                pais_residencia = st.text_input("País de residencia *", value=p[13] or "",
+                    key=f"e_pais_{id_sel}")
+            with col4:
+                estado = st.selectbox("Estado", ["activo", "inactivo"],
+                    index=0 if p[14] == "activo" else 1, key=f"e_estado_{id_sel}")
 
             if st.button("Guardar cambios", key=f"btn_editar_{id_sel}"):
                 errores = []
@@ -170,7 +192,6 @@ elif menu == "Pacientes":
                                       os_guardar, nro_guardar, moneda, precio_sesion,
                                       pais_residencia, estado)
                     st.success("Paciente actualizado correctamente.")
-
             st.markdown("#### Historial de sesiones")
             sesiones = listar_sesiones_paciente(id_sel)
             sesiones_ord = sorted(sesiones, key=lambda x: x[2])
