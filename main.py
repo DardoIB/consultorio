@@ -381,15 +381,7 @@ elif menu == "Nueva Sesión":
 
         if "msg_sesion" in st.session_state:
             st.success(st.session_state.pop("msg_sesion"))
-        
-# Últimas 5 sesiones del paciente
-        from sesiones import listar_sesiones_paciente
-        ultimas = listar_sesiones_paciente(id_paciente)[:5]
-        if ultimas:
-            st.markdown("#### Últimas sesiones")
-            for s in ultimas:
-                cobrado_txt = "✅" if s[7] == "si" else "❌"
-                st.write(f"Sesión {s[2]} | {s[1]} | {s[3]} | {s[6]} {s[4]} pac. {cobrado_txt}")
+      
 
 
 elif menu == "Sesiones Pendientes":
