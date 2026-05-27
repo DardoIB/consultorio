@@ -154,17 +154,35 @@ elif menu == "Pacientes":
                                       pais_residencia, estado)
                     st.success("Paciente actualizado correctamente.")
 
-            if st.button("📋 Ver historial de sesiones", key=f"btn_hist_{id_sel}"):
-                st.session_state["ver_historial"] = id_sel
+            col1, col2 = st.columns([1, 4])
+            with col1:
+                if st.button("📋 Ver historial", key=f"btn_hist_{id_sel}"):
+                    st.session_state["ver_historial"] = id_sel
+                    st.rerun()
 
             if st.session_state.get("ver_historial") == id_sel:
+                st.markdown("---")
+                st.markdown(f"#### 📋 Historial de sesiones — {p[2]}, {p[1]}")
+                if st.button("← Volver", key="btn_volver_hist"):
+                    del st.session_state["ver_historial"]
+                    st.rerun()
+
                 sesiones = listar_sesiones_paciente(id_sel)
-                sesiones_ord = sorted(sesiones, key=lambda x: x[2])
+                sesiones_ord = sorted(sesiones, key=lambda x: x[2], reverse=True)
                 if sesiones_ord:
-                    st.markdown("#### Historial de sesiones")
+                    import pandas as pd
+                    data = []
                     for s in sesiones_ord:
-                        cobrado_txt = "✅" if s[7] == "si" else "❌"
-                        st.write(f"**Ses. {s[2]}** | {s[1]} | {s[3]} | {s[6]} {s[4]:.2f} pac. / {s[5] or 0:.2f} OS | {cobrado_txt} {s[8] or ''}")
+                        data.append({
+                            "Nro": s[2],
+                            "Fecha": s[1],
+                            "Modalidad": s[3],
+                            "Monto paciente": f"{s[6]} {s[4]:.2f}",
+                            "Monto OS": f"{s[6]} {s[5] or 0:.2f}",
+                            "Cobrado": "✅" if s[7] == "si" else "❌",
+                            "Forma cobro": s[8] or ""
+                        })
+                    st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
                 else:
                     st.info("Sin sesiones registradas.")
                     
