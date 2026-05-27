@@ -30,7 +30,7 @@ st.markdown("""
             font-weight: bold !important;
         }
         .main { overflow-y: auto !important; }
-        section.main { height: 100vh; }
+       
     </style>
 """, unsafe_allow_html=True)
 st.title("Consultorio Psicológico")
