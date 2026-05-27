@@ -248,8 +248,7 @@ with tab3:
 
             sesiones = listar_sesiones_paciente(id_hist)
             sesiones_ord = sorted(sesiones, key=lambda x: x[2], reverse=True)
-            if sesiones_ord:
-                import pandas as pd
+            if sesiones_ord:               
                 data = []
                 for s in sesiones_ord:
                     data.append({
@@ -260,8 +259,7 @@ with tab3:
                         "Monto OS": f"{s[6]} {s[5] or 0:.2f}",
                         "Cobrado": "✅" if s[7] == "si" else "❌",
                         "Forma cobro": s[8] or ""
-                    })
-                import pandas as pd
+                        })
                 st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
             else:
                 st.info("Sin sesiones registradas.")
