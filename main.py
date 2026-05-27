@@ -235,6 +235,7 @@ elif menu == "Pacientes":
                     st.rerun()
 
 with tab3:
+        import pandas as pd
         pacientes = listar_pacientes()
         if not pacientes:
             st.info("No hay pacientes cargados.")
@@ -243,12 +244,10 @@ with tab3:
             seleccion = st.selectbox("Seleccionar paciente", list(opciones.keys()), key="sel_hist")
             id_hist = opciones[seleccion]
             p_hist = obtener_paciente(id_hist)
-
             st.markdown(f"#### {p_hist[2]}, {p_hist[1]}")
-
             sesiones = listar_sesiones_paciente(id_hist)
             sesiones_ord = sorted(sesiones, key=lambda x: x[2], reverse=True)
-            if sesiones_ord:               
+            if sesiones_ord:
                 data = []
                 for s in sesiones_ord:
                     data.append({
@@ -259,7 +258,7 @@ with tab3:
                         "Monto OS": f"{s[6]} {s[5] or 0:.2f}",
                         "Cobrado": "✅" if s[7] == "si" else "❌",
                         "Forma cobro": s[8] or ""
-                        })
+                    })
                 st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
             else:
                 st.info("Sin sesiones registradas.")
