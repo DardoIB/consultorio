@@ -16,7 +16,7 @@ st.markdown("""
             padding-top: 0.5rem; 
             padding-bottom: 0rem;
         }
-        h1 { font-size: 1.2rem !important; margin-bottom: 0.3rem !important; margin-top: 0.5rem !important; }
+        h1 { font-size: 1.2rem !important; margin-bottom: 0.3rem !important; padding-top: 0.8rem !important; }
         h2 { font-size: 1.1rem !important; margin-bottom: 0.2rem !important; }
         h3 { font-size: 1rem !important; margin-bottom: 0.2rem !important; }
         label { 
