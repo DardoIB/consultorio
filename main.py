@@ -54,7 +54,7 @@ if menu == "Resumen":
             st.write(f"**{s[2]}, {s[1]}** — {s[3]} | {s[6]} {s[4]}")
 
 elif menu == "Pacientes":
-    tab1, tab2 = st.tabs(["Listado y edición", "Nuevo Paciente"])
+    tab1, tab2, tab3 = st.tabs(["Listado y edición", "Nuevo Paciente", "Historial sesiones"])
 
     with tab1:
         st.subheader("Pacientes activos")
@@ -154,41 +154,6 @@ elif menu == "Pacientes":
                                       pais_residencia, estado)
                     st.success("Paciente actualizado correctamente.")
 
-            col1, col2 = st.columns([1, 4])
-            with col1:
-                if st.button("📋 Ver historial", key=f"btn_hist_{id_sel}"):
-                    st.session_state["ver_historial"] = id_sel
-                    st.rerun()
-
-            if st.session_state.get("ver_historial") == id_sel:
-                st.markdown("---")
-                st.markdown(f"#### 📋 Historial de sesiones — {p[2]}, {p[1]}")
-                if st.button("← Volver", key="btn_volver_hist"):
-                    del st.session_state["ver_historial"]
-                    st.rerun()
-
-                sesiones = listar_sesiones_paciente(id_sel)
-                sesiones_ord = sorted(sesiones, key=lambda x: x[2], reverse=True)
-                if sesiones_ord:
-                    import pandas as pd
-                    data = []
-                    for s in sesiones_ord:
-                        data.append({
-                            "Nro": s[2],
-                            "Fecha": s[1],
-                            "Modalidad": s[3],
-                            "Monto paciente": f"{s[6]} {s[4]:.2f}",
-                            "Monto OS": f"{s[6]} {s[5] or 0:.2f}",
-                            "Cobrado": "✅" if s[7] == "si" else "❌",
-                            "Forma cobro": s[8] or ""
-                        })
-                    st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
-                else:
-                    st.info("Sin sesiones registradas.")
-                    
-               
-               
-
     with tab2:
     
         if "nuevo_tipo" not in st.session_state:
@@ -268,6 +233,39 @@ elif menu == "Pacientes":
                                      precio_sesion, pais_residencia)
                     st.success(f"Paciente {nombre} {apellido} guardado correctamente.")
                     st.rerun()
+
+with tab3:
+        pacientes = listar_pacientes()
+        if not pacientes:
+            st.info("No hay pacientes cargados.")
+        else:
+            opciones = {f"{p[2]}, {p[1]}": p[0] for p in pacientes}
+            seleccion = st.selectbox("Seleccionar paciente", list(opciones.keys()), key="sel_hist")
+            id_hist = opciones[seleccion]
+            p_hist = obtener_paciente(id_hist)
+
+            st.markdown(f"#### {p_hist[2]}, {p_hist[1]}")
+
+            sesiones = listar_sesiones_paciente(id_hist)
+            sesiones_ord = sorted(sesiones, key=lambda x: x[2], reverse=True)
+            if sesiones_ord:
+                import pandas as pd
+                data = []
+                for s in sesiones_ord:
+                    data.append({
+                        "Nro": s[2],
+                        "Fecha": s[1],
+                        "Modalidad": s[3],
+                        "Monto paciente": f"{s[6]} {s[4]:.2f}",
+                        "Monto OS": f"{s[6]} {s[5] or 0:.2f}",
+                        "Cobrado": "✅" if s[7] == "si" else "❌",
+                        "Forma cobro": s[8] or ""
+                    })
+                import pandas as pd
+                st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
+            else:
+                st.info("Sin sesiones registradas.")
+                
 elif menu == "Nueva Sesión":
     st.subheader("Registrar sesión")
     pacientes = listar_pacientes()
