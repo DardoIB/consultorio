@@ -8,6 +8,7 @@ from datetime import date
 crear_tablas()
 
 st.set_page_config(page_title="Consultorio", layout="wide")
+
 st.markdown("""
     <style>
         .block-container { 
