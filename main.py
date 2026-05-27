@@ -62,6 +62,8 @@ st.markdown("""
         /* Ocultar el fork button y header de streamlit */
         header[data-testid="stHeader"] { visibility: hidden; height: 0; }
         #MainMenu { visibility: hidden; }
+        button[data-testid="collapsedControl"] { visibility: visible !important; }
+        section[data-testid="stSidebar"] > div:first-child { padding-top: 0.5rem; }
         footer { visibility: hidden; }
         /* Tab activa en negrita */
         .stTabs [aria-selected="true"] {
