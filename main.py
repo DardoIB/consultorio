@@ -60,7 +60,7 @@ st.markdown("""
             padding-top: 0.5rem;
         }
         /* Ocultar el fork button y header de streamlit */
-        header { visibility: hidden; height: 0; }
+        header[data-testid="stHeader"] { visibility: hidden; height: 0; }
         #MainMenu { visibility: hidden; }
         footer { visibility: hidden; }
         /* Tab activa en negrita */
