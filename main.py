@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 from pacientes import agregar_paciente, listar_pacientes, obtener_paciente, modificar_paciente
 from sesiones import agregar_sesion, listar_sesiones_paciente, listar_sesiones_pendientes, marcar_cobrado
 from reportes import ingresos_por_mes, ingresos_por_paciente
@@ -31,6 +32,7 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
+
 st.title("Consultorio Psicológico")
 
 menu = st.sidebar.selectbox("Menú", [
@@ -54,10 +56,9 @@ if menu == "Resumen":
             st.write(f"**{s[2]}, {s[1]}** — {s[3]} | {s[6]} {s[4]}")
 
 elif menu == "Pacientes":
-    tab1, tab2, tab3 = st.tabs(["Listado y edición", "Nuevo Paciente", "Historial sesiones"])
+    tab1, tab2, tab3 = st.tabs(["Listado y edición", "Nuevo Paciente", "Historial"])
 
     with tab1:
-        st.subheader("Pacientes activos")
         pacientes = listar_pacientes()
         if not pacientes:
             st.info("No hay pacientes cargados.")
@@ -77,7 +78,6 @@ elif menu == "Pacientes":
                 fpc = date.today()
 
             st.markdown("#### Datos del paciente")
-
             col1, col2 = st.columns(2)
             with col1:
                 nombre = st.text_input("Nombre *", value=p[1], key=f"e_nombre_{id_sel}")
@@ -155,7 +155,6 @@ elif menu == "Pacientes":
                     st.success("Paciente actualizado correctamente.")
 
     with tab2:
-    
         if "nuevo_tipo" not in st.session_state:
             st.session_state.nuevo_tipo = "particular"
 
@@ -234,8 +233,7 @@ elif menu == "Pacientes":
                     st.success(f"Paciente {nombre} {apellido} guardado correctamente.")
                     st.rerun()
 
-with tab3:
-        import pandas as pd
+    with tab3:
         pacientes = listar_pacientes()
         if not pacientes:
             st.info("No hay pacientes cargados.")
@@ -262,7 +260,7 @@ with tab3:
                 st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
             else:
                 st.info("Sin sesiones registradas.")
-                
+
 elif menu == "Nueva Sesión":
     st.subheader("Registrar sesión")
     pacientes = listar_pacientes()
@@ -275,23 +273,17 @@ elif menu == "Nueva Sesión":
         seleccion = st.selectbox("Paciente", list(opciones.keys()), key="sel_sesion")
         id_paciente = opciones[seleccion]
 
-        # Traer datos completos del paciente
         p = obtener_paciente(id_paciente)
         nombre_completo = f"{p[2]}, {p[1]}"
         es_os = p[9] == "obra social"
 
-        # Calcular edad
         hoy = date.today()
         try:
             fn = date.fromisoformat(p[3]) if p[3] else None
-            if fn:
-                edad = hoy.year - fn.year - ((hoy.month, hoy.day) < (fn.month, fn.day))
-            else:
-                edad = None
+            edad = hoy.year - fn.year - ((hoy.month, hoy.day) < (fn.month, fn.day)) if fn else None
         except:
             edad = None
 
-        # Calcular antigüedad
         try:
             fpc = date.fromisoformat(p[6]) if p[6] else None
             if fpc:
@@ -306,7 +298,6 @@ elif menu == "Nueva Sesión":
         ultima_fecha = ultima_sesion_fecha(id_paciente)
         nro_sesion = ultimo_numero_sesion(id_paciente)
 
-        # Panel informativo del paciente
         col1, col2, col3 = st.columns(3)
         col1.markdown(f"**Tipo:** {p[9].capitalize()}")
         if es_os:
@@ -317,7 +308,6 @@ elif menu == "Nueva Sesión":
         col3.markdown(f"**Última sesión:** {ultima_fecha or 'Sin sesiones previas'}")
         col3.markdown(f"**Próximo nro sesión:** {nro_sesion}")
 
-                
         with st.form("form_sesion"):
             col1, col2, col3 = st.columns(3)
             with col1:
@@ -340,8 +330,7 @@ elif menu == "Nueva Sesión":
                 if es_os:
                     monto_obra_social = st.number_input("Monto obra social", min_value=0.0)
                 else:
-                    st.number_input("Monto obra social", min_value=0.0,
-                        value=0.0, disabled=True)
+                    st.number_input("Monto obra social", min_value=0.0, value=0.0, disabled=True)
                     monto_obra_social = 0.0
 
             col1, col2 = st.columns(2)
@@ -363,8 +352,13 @@ elif menu == "Nueva Sesión":
 
         if "msg_sesion" in st.session_state:
             st.success(st.session_state.pop("msg_sesion"))
-      
 
+        ultimas = listar_sesiones_paciente(id_paciente)[:5]
+        if ultimas:
+            st.markdown("#### Últimas sesiones")
+            for s in ultimas:
+                cobrado_txt = "✅" if s[7] == "si" else "❌"
+                st.write(f"Sesión {s[2]} | {s[1]} | {s[3]} | {s[6]} {s[4]} pac. {cobrado_txt}")
 
 elif menu == "Sesiones Pendientes":
     st.subheader("Sesiones sin cobrar")
