@@ -8,31 +8,6 @@ from datetime import date
 crear_tablas()
 
 st.set_page_config(page_title="Consultorio", layout="wide")
-
-st.markdown("""
-    <style>
-        .block-container { 
-            padding-top: 0.5rem; 
-            padding-bottom: 0rem;
-        }
-        h1 { font-size: 1.4rem !important; margin-bottom: 0.3rem !important; }
-        h2 { font-size: 1.1rem !important; margin-bottom: 0.2rem !important; }
-        h3 { font-size: 1rem !important; margin-bottom: 0.2rem !important; }
-        label { 
-            font-size: 0.8rem !important; 
-            color: #555 !important;
-        }
-        .stTabs [data-baseweb="tab"] {
-            font-size: 0.85rem;
-            padding: 0.3rem 0.8rem;
-        }
-        .stTabs [aria-selected="true"] {
-            font-weight: bold !important;
-        }
-        .main { overflow-y: auto !important; }
-       
-    </style>
-""", unsafe_allow_html=True)
 st.title("Consultorio Psicológico")
 
 menu = st.sidebar.selectbox("Menú", [
