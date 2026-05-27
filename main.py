@@ -11,67 +11,26 @@ st.set_page_config(page_title="Consultorio", layout="wide")
 
 st.markdown("""
     <style>
-        /* Reducir padding general */
         .block-container { 
             padding-top: 0.5rem; 
             padding-bottom: 0rem;
-            max-width: 1200px;
         }
-        /* Título principal más chico */
         h1 { font-size: 1.4rem !important; margin-bottom: 0.3rem !important; }
-        /* Subtítulos más chicos */
         h2 { font-size: 1.1rem !important; margin-bottom: 0.2rem !important; }
         h3 { font-size: 1rem !important; margin-bottom: 0.2rem !important; }
-        /* Labels más chicos y con espacio arriba */
         label { 
             font-size: 0.8rem !important; 
-            margin-top: 0.4rem !important;
             color: #555 !important;
         }
-        /* Reducir espacio entre widgets */
-        div[data-testid="stTextInput"],
-        div[data-testid="stSelectbox"],
-        div[data-testid="stNumberInput"],
-        div[data-testid="stDateInput"] {
-            margin-bottom: -0.8rem !important;
-        }
-        /* Inputs más compactos */
-        input, select {
-            padding: 0.3rem 0.5rem !important;
-            font-size: 0.9rem !important;
-        }
-        /* Botón más compacto */
-        .stButton button {
-            margin-top: 0.8rem;
-            padding: 0.3rem 1.2rem;
-            font-size: 0.9rem;
-        }
-        /* Tabs más compactas */
         .stTabs [data-baseweb="tab"] {
             font-size: 0.85rem;
             padding: 0.3rem 0.8rem;
         }
-        /* Métricas más compactas */
-        div[data-testid="metric-container"] {
-            padding: 0.5rem !important;
-        }
-        /* Sidebar más compacto */
-        section[data-testid="stSidebar"] {
-            padding-top: 0.5rem;
-        }
-        /* Ocultar el fork button y header de streamlit */
-        header[data-testid="stHeader"] { visibility: hidden; height: 0; }
-        #MainMenu { visibility: hidden; }
-        button[data-testid="collapsedControl"] { visibility: visible !important; }
-        section[data-testid="stSidebar"] > div:first-child { padding-top: 0.5rem; }
-        footer { visibility: hidden; }
-        /* Tab activa en negrita */
         .stTabs [aria-selected="true"] {
             font-weight: bold !important;
         }
     </style>
 """, unsafe_allow_html=True)
-
 st.title("Consultorio Psicológico")
 
 menu = st.sidebar.selectbox("Menú", [
