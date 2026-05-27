@@ -153,8 +153,8 @@ elif menu == "Pacientes":
                                       os_guardar, nro_guardar, moneda, precio_sesion,
                                       pais_residencia, estado)
                     st.success("Paciente actualizado correctamente.")
-                    
-                if st.button("📋 Ver historial de sesiones", key=f"btn_hist_{id_sel}"):
+
+            if st.button("📋 Ver historial de sesiones", key=f"btn_hist_{id_sel}"):
                 st.session_state["ver_historial"] = id_sel
 
             if st.session_state.get("ver_historial") == id_sel:
@@ -167,15 +167,9 @@ elif menu == "Pacientes":
                         st.write(f"**Ses. {s[2]}** | {s[1]} | {s[3]} | {s[6]} {s[4]:.2f} pac. / {s[5] or 0:.2f} OS | {cobrado_txt} {s[8] or ''}")
                 else:
                     st.info("Sin sesiones registradas.")
-            st.markdown("#### Historial de sesiones")
-            sesiones = listar_sesiones_paciente(id_sel)
-            sesiones_ord = sorted(sesiones, key=lambda x: x[2])
-            if sesiones_ord:
-                for s in sesiones_ord:
-                    cobrado_txt = "✅" if s[7] == "si" else "❌"
-                    st.write(f"**Ses. {s[2]}** | {s[1]} | {s[3]} | {s[6]} {s[4]:.2f} pac. / {s[5] or 0:.2f} OS | {cobrado_txt} {s[8] or ''}")
-            else:
-                st.info("Sin sesiones registradas.")
+                    
+               
+               
 
     with tab2:
     
