@@ -153,7 +153,8 @@ elif menu == "Pacientes":
                                       os_guardar, nro_guardar, moneda, precio_sesion,
                                       pais_residencia, estado)
                     st.success("Paciente actualizado correctamente.")
-                    if st.button("📋 Ver historial de sesiones", key=f"btn_hist_{id_sel}"):
+                    
+                if st.button("📋 Ver historial de sesiones", key=f"btn_hist_{id_sel}"):
                 st.session_state["ver_historial"] = id_sel
 
             if st.session_state.get("ver_historial") == id_sel:
