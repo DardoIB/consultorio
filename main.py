@@ -8,6 +8,28 @@ from datetime import date
 
 crear_tablas()
 
+# ─── LOGIN ─────────────────────────────────────────────────
+def check_login():
+    if "logged_in" not in st.session_state:
+        st.session_state.logged_in = False
+
+    if not st.session_state.logged_in:
+        st.set_page_config(page_title="Consultorio - Login", layout="centered")
+        st.title("🔐 Consultorio Psicológico")
+        st.markdown("### Iniciar sesión")
+        usuario = st.text_input("Usuario")
+        password = st.text_input("Contraseña", type="password")
+        if st.button("Ingresar"):
+            cred = st.secrets["credentials"]
+            if usuario == cred["usuario"] and password == cred["password"]:
+                st.session_state.logged_in = True
+                st.rerun()
+            else:
+                st.error("Usuario o contraseña incorrectos.")
+        st.stop()
+
+check_login()
+
 st.set_page_config(page_title="Consultorio", layout="wide")
 
 st.markdown("""
