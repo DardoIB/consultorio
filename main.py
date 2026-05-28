@@ -65,6 +65,10 @@ menu = st.sidebar.selectbox("Menú", [
     "Reportes"
 ])
 
+if st.sidebar.button("Cerrar sesión"):
+    st.session_state.logged_in = False
+    st.rerun()
+
 if menu == "Resumen":
     st.subheader("Resumen general")
     pacientes = listar_pacientes()
