@@ -276,18 +276,18 @@
         <h3>Solicitá un turno</h3>
         <p>📧 psic.breslin@gmail.com</p>
         <br>
-        <div class="form-turno">
-            <input type="text" placeholder="Tu nombre">
-            <input type="email" placeholder="Tu email">
-            <input type="tel" placeholder="Tu teléfono (opcional)">
-            <select>
+        <form class="form-turno" action="https://formspree.io/f/xqejvpaj" method="POST">
+            <input type="text" name="nombre" placeholder="Tu nombre" required>
+            <input type="email" name="email" placeholder="Tu email" required>
+            <input type="tel" name="telefono" placeholder="Tu teléfono (opcional)">
+            <select name="modalidad">
                 <option value="">Modalidad preferida</option>
                 <option value="online">Online</option>
                 <option value="presencial">Presencial — Almagro, CABA</option>
             </select>
-            <textarea rows="3" placeholder="¿Querés contarme algo antes de la primera sesión? (opcional)"></textarea>
-            <button type="button">Enviar solicitud</button>
-        </div>
+            <textarea name="mensaje" rows="3" placeholder="¿Querés contarme algo antes de la primera sesión? (opcional)"></textarea>
+            <button type="submit">Enviar solicitud</button>
+        </form>
     </div>
 </div>
 </body>
