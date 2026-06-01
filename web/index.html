@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marina Breslin — Psicóloga</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: #fff;
+            color: #111;
+        }
+
+        /* GRID MONDRIAN */
+        .mondrian-header {
+            display: grid;
+            grid-template-columns: 8px 1fr 8px 1fr 8px;
+            grid-template-rows: 8px auto 8px auto 8px;
+            background: #111;
+            gap: 0;
+            min-height: 100vh;
+        }
+
+        .m-red    { background: #D62828; }
+        .m-blue   { background: #1B4FBF; }
+        .m-yellow { background: #F7C843; }
+        .m-white  { background: #fff; }
+        .m-black  { background: #111; }
+
+        /* BLOQUE FOTO */
+        .block-foto {
+            grid-column: 2;
+            grid-row: 2;
+            background: #fff;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .block-foto img {
+            width: 100%;
+            max-width: 340px;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+        }
+
+        /* BLOQUE NOMBRE */
+        .block-nombre {
+            grid-column: 4;
+            grid-row: 2;
+            background: #F7C843;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .block-nombre h1 {
+            font-size: 2.8rem;
+            font-weight: normal;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .block-nombre h2 {
+            font-size: 1.1rem;
+            font-weight: normal;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .block-nombre p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #222;
+        }
+
+        /* BLOQUE SERVICIOS */
+        .block-servicios {
+            grid-column: 2;
+            grid-row: 4;
+            background: #1B4FBF;
+            padding: 2.5rem 2rem;
+            color: #fff;
+        }
+
+        .block-servicios h3 {
+            font-size: 1.3rem;
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #fff;
+            padding-bottom: 0.5rem;
+        }
+
+        .block-servicios ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .block-servicios ul li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            font-size: 0.95rem;
+        }
+
+        .block-servicios ul li:last-child {
+            border-bottom: none;
+        }
+
+        /* BLOQUE CONTACTO */
+        .block-contacto {
+            grid-column: 4;
+            grid-row: 4;
+            background: #D62828;
+            padding: 2.5rem 2rem;
+            color: #fff;
+        }
+
+        .block-contacto h3 {
+            font-size: 1.3rem;
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #fff;
+            padding-bottom: 0.5rem;
+        }
+
+        .block-contacto p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .block-contacto a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* FORMULARIO */
+        .form-turno {
+            margin-top: 1.5rem;
+        }
+
+        .form-turno input,
+        .form-turno textarea,
+        .form-turno select {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 0.8rem;
+            border: 2px solid #fff;
+            background: transparent;
+            color: #fff;
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+        }
+
+        .form-turno input::placeholder,
+        .form-turno textarea::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .form-turno select option {
+            color: #111;
+            background: #fff;
+        }
+
+        .form-turno button {
+            width: 100%;
+            padding: 0.8rem;
+            background: #111;
+            color: #fff;
+            border: none;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+        }
+
+        .form-turno button:hover {
+            background: #F7C843;
+            color: #111;
+        }
+
+        /* FRANJAS LATERALES */
+        .franja-izq-top { grid-column: 1; grid-row: 1 / 3; background: #D62828; }
+        .franja-izq-bot { grid-column: 1; grid-row: 3 / 6; background: #1B4FBF; }
+        .franja-der-top { grid-column: 5; grid-row: 1 / 4; background: #F7C843; }
+        .franja-der-bot { grid-column: 5; grid-row: 4 / 6; background: #D62828; }
+        .franja-mid     { grid-column: 3; grid-row: 1 / 6; background: #111; }
+        .franja-top     { grid-column: 1 / 6; grid-row: 1; background: #111; }
+        .franja-bot     { grid-column: 1 / 6; grid-row: 5; background: #111; }
+        .franja-mid-h   { grid-column: 1 / 6; grid-row: 3; background: #111; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .mondrian-header {
+                grid-template-columns: 4px 1fr 4px;
+                grid-template-rows: 4px auto 4px auto 4px auto 4px auto 4px;
+            }
+            .block-foto    { grid-column: 2; grid-row: 2; }
+            .block-nombre  { grid-column: 2; grid-row: 4; }
+            .block-servicios { grid-column: 2; grid-row: 6; }
+            .block-contacto  { grid-column: 2; grid-row: 8; }
+            .franja-izq-top, .franja-izq-bot,
+            .franja-der-top, .franja-der-bot,
+            .franja-mid { display: none; }
+            .franja-top  { grid-column: 1 / 4; grid-row: 1; }
+            .franja-bot  { grid-column: 1 / 4; grid-row: 9; }
+            .franja-mid-h { grid-column: 1 / 4; }
+        }
+    </style>
+</head>
+<body>
+<div class="mondrian-header">
+    <!-- Franjas estructurales -->
+    <div class="franja-top"></div>
+    <div class="franja-bot"></div>
+    <div class="franja-mid-h"></div>
+    <div class="franja-izq-top"></div>
+    <div class="franja-izq-bot"></div>
+    <div class="franja-der-top"></div>
+    <div class="franja-der-bot"></div>
+    <div class="franja-mid"></div>
+
+    <!-- Bloque foto -->
+    <div class="block-foto">
+        <img src="foto.jpg" alt="Marina Breslin">
+    </div>
+
+    <!-- Bloque nombre y presentación -->
+    <div class="block-nombre">
+        <h1>Marina<br>Breslin</h1>
+        <h2>Psicóloga · Buenos Aires</h2>
+        <p>
+            Hace más de 10 años brindo servicios terapéuticos en el ámbito privado, público e institucional. 
+            Te propongo armar un encuadre adecuado a tus necesidades, en particular si sos migrante o nómada digital.
+        </p>
+        <br>
+        <p>
+            En las sesiones vamos a hablar de tu historia personal y familiar, de tu presente y motivo de consulta 
+            actual y también de cómo te proyectás a futuro. Vamos a elaborar conjuntamente hipótesis sobre lo que 
+            te preocupe para analizar soluciones posibles y sustentables en el tiempo.
+        </p>
+        <br>
+        <p>
+            También vamos a dedicar tiempo a hablar del trabajo, los afectos, el tiempo libre, redes vinculares 
+            y comunitarias. Encontrarás un espacio libre de prejuicios, respetuoso hacia tu identidad y construido 
+            de manera conjunta.
+        </p>
+    </div>
+
+    <!-- Bloque servicios -->
+    <div class="block-servicios">
+        <h3>Servicios</h3>
+        <ul>
+            <li>✦ Terapia individual</li>
+            <li>✦ Atención a migrantes y nómadas digitales</li>
+            <li>✦ Sesiones online</li>
+            <li>✦ Sesiones presenciales — Almagro, CABA</li>
+        </ul>
+    </div>
+
+    <!-- Bloque contacto y turno -->
+    <div class="block-contacto">
+        <h3>Solicitá un turno</h3>
+        <p>📧 psic.breslin@gmail.com</p>
+        <br>
+        <div class="form-turno">
+            <input type="text" placeholder="Tu nombre">
+            <input type="email" placeholder="Tu email">
+            <input type="tel" placeholder="Tu teléfono (opcional)">
+            <select>
+                <option value="">Modalidad preferida</option>
+                <option value="online">Online</option>
+                <option value="presencial">Presencial — Almagro, CABA</option>
+            </select>
+            <textarea rows="3" placeholder="¿Querés contarme algo antes de la primera sesión? (opcional)"></textarea>
+            <button type="button">Enviar solicitud</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
