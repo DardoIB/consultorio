@@ -398,6 +398,7 @@ elif menu == "Sesiones Pendientes":
                 st.rerun()
     else:
         st.success("No hay sesiones pendientes de cobro.")
+
 elif menu == "Turnos Web":
     from turnos import listar_turnos_pendientes, confirmar_turno, cancelar_turno
     st.subheader("Turnos solicitados desde la web")
