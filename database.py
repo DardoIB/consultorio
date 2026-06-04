@@ -52,6 +52,20 @@ def crear_tablas():
         cursor.execute("ALTER TABLE paciente ADD COLUMN nro_afiliado TEXT")
     except:
         pass
-
+        
+cursor.execute("""
+        CREATE TABLE IF NOT EXISTS turno_solicitado (
+            id_turno INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            email TEXT NOT NULL,
+            telefono TEXT,
+            modalidad TEXT,
+            fecha TEXT NOT NULL,
+            hora TEXT NOT NULL,
+            mensaje TEXT,
+            estado TEXT DEFAULT 'pendiente',
+            fecha_solicitud TEXT
+        )
+    """)
     conn.commit()
     conn.close()
