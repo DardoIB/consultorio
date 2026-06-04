@@ -62,9 +62,9 @@ menu = st.sidebar.selectbox("Menú", [
     "Pacientes",
     "Nueva Sesión",
     "Sesiones Pendientes",
+    "Turnos Web",
     "Reportes"
 ])
-
 if st.sidebar.button("Cerrar sesión"):
     st.session_state.logged_in = False
     st.rerun()
@@ -398,7 +398,67 @@ elif menu == "Sesiones Pendientes":
                 st.rerun()
     else:
         st.success("No hay sesiones pendientes de cobro.")
-
+elif menu == "Turnos Web":
+    from turnos import listar_turnos_pendientes, confirmar_turno, cancelar_turno
+    st.subheader("Turnos solicitados desde la web")
+    
+    turnos = listar_turnos_pendientes()
+    
+    if not turnos:
+        st.info("No hay turnos pendientes.")
+    else:
+        for t in turnos:
+            id_turno, nombre, email, telefono, modalidad, fecha, hora, mensaje, fecha_sol = t
+            
+            with st.expander(f"**{nombre}** — {fecha} {hora} | {modalidad}"):
+                col1, col2 = st.columns(2)
+                col1.write(f"**Email:** {email}")
+                col1.write(f"**Teléfono:** {telefono or 'No informado'}")
+                col2.write(f"**Modalidad:** {modalidad}")
+                col2.write(f"**Solicitado:** {fecha_sol}")
+                if mensaje:
+                    st.write(f"**Mensaje:** {mensaje}")
+                
+                st.markdown("---")
+                
+                pacientes = listar_pacientes()
+                opciones_pac = {"--- Paciente nuevo ---": None}
+                opciones_pac.update({f"{p[2]}, {p[1]}": p[0] for p in pacientes})
+                
+                seleccion = st.selectbox(
+                    "¿Es paciente existente?",
+                    list(opciones_pac.keys()),
+                    key=f"pac_turno_{id_turno}"
+                )
+                
+                col1, col2 = st.columns(2)
+                
+                if col1.button("Confirmar turno", key=f"conf_{id_turno}"):
+                    id_pac_sel = opciones_pac[seleccion]
+                    if id_pac_sel is None:
+                        st.session_state[f"nuevo_pac_{id_turno}"] = {
+                            "nombre": nombre.split()[0] if nombre else "",
+                            "apellido": " ".join(nombre.split()[1:]) if len(nombre.split()) > 1 else "",
+                            "email": email,
+                            "telefono": telefono or "",
+                            "modalidad": modalidad,
+                            "fecha": fecha
+                        }
+                        st.warning("Paciente nuevo — completá los datos en la sección Pacientes → Nuevo Paciente y luego registrá la sesión.")
+                        confirmar_turno(id_turno)
+                        st.rerun()
+                    else:
+                        confirmar_turno(id_turno)
+                        st.session_state["msg_turno"] = f"✅ Turno de {nombre} confirmado."
+                        st.rerun()
+                
+                if col2.button("Cancelar turno", key=f"canc_{id_turno}"):
+                    cancelar_turno(id_turno)
+                    st.session_state["msg_turno"] = f"Turno de {nombre} cancelado."
+                    st.rerun()
+        
+        if "msg_turno" in st.session_state:
+            st.success(st.session_state.pop("msg_turno"))
 elif menu == "Reportes":
     st.subheader("Reportes de ingresos")
     anio = st.number_input("Año", min_value=2020, max_value=2030, value=2026, step=1)
