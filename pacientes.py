@@ -58,5 +58,20 @@ def modificar_paciente(id_paciente, nombre, apellido, fecha_nacimiento, telefono
           modalidad, tipo, obra_social, nro_afiliado, moneda, precio_sesion,
           pais_residencia, estado, id_paciente))
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS turno_solicitado (
+            id_turno INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            email TEXT NOT NULL,
+            telefono TEXT,
+            modalidad TEXT,
+            fecha TEXT NOT NULL,
+            hora TEXT NOT NULL,
+            mensaje TEXT,
+            estado TEXT DEFAULT 'pendiente',
+            fecha_solicitud TEXT
+        )
+    """)
+
     conn.commit()
     conn.close()
