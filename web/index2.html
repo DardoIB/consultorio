@@ -10,75 +10,64 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background: #FAF8F5; color: #2C2820; }
 
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; border-bottom: 1px solid #E8E2D9; }
-        .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; letter-spacing: 0.08em; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; border-bottom: 1px solid #E8E2D9; }
+        .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; letter-spacing: 0.08em; }
         .nav-links { display: flex; gap: 2.5rem; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: #7A6E62; }
         .nav-links a { text-decoration: none; color: inherit; }
         .nav-links a:hover { color: #B8906A; }
 
-        .hero { display: grid; grid-template-columns: 1fr 1.3fr; min-height: 520px; }
-        .hero-foto { overflow: hidden; background: #E0D8CE; }
-        .hero-foto img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-        .hero-content { padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
-        .eyebrow { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: #B8906A; margin-bottom: 1.2rem; }
-        .nombre { font-family: 'Cormorant Garamond', serif; font-size: 3.8rem; font-weight: 300; line-height: 1.05; margin-bottom: 0.4rem; }
-        .titulo { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-style: italic; color: #7A6E62; margin-bottom: 1.8rem; }
-        .divider { width: 36px; height: 1px; background: #B8906A; margin-bottom: 1.8rem; }
-        .bio { font-size: 0.83rem; line-height: 1.8; color: #5A4E44; max-width: 440px; }
-        .bio p { margin-bottom: 1rem; }
-        .cta { margin-top: 2.2rem; display: flex; gap: 1rem; }
+        /* HERO — foto izquierda, contenido derecha */
+        .hero { display: grid; grid-template-columns: 0.75fr 1.25fr; height: calc(100vh - 57px); max-height: 640px; }
+        .hero-foto { overflow: hidden; }
+        .hero-foto img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+        .hero-content { padding: 2.5rem 3rem; display: flex; flex-direction: column; justify-content: center; }
+        .eyebrow { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: #B8906A; margin-bottom: 0.8rem; }
+        .nombre { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 300; line-height: 1.05; margin-bottom: 0.3rem; }
+        .titulo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: #7A6E62; margin-bottom: 1.2rem; }
+        .divider { width: 36px; height: 1px; background: #B8906A; margin-bottom: 1.2rem; }
+        .bio { font-size: 0.82rem; line-height: 1.75; color: #5A4E44; max-width: 420px; }
+        .bio p { margin-bottom: 0.8rem; }
+        .cta { margin-top: 1.8rem; }
         .btn-primary { padding: 0.75rem 2rem; background: #B8906A; color: #FAF8F5; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; border: none; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; display: inline-block; }
-        .btn-secondary { padding: 0.75rem 2rem; background: transparent; color: #2C2820; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid #C8BEB4; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; display: inline-block; }
         .btn-primary:hover { background: #A07858; }
-        .btn-secondary:hover { border-color: #B8906A; color: #B8906A; }
 
+        /* SERVICIOS */
         .servicios { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #E0D8CE; border-bottom: 1px solid #E0D8CE; background: #F0EBE3; }
-        .servicio { padding: 2rem 1.5rem; text-align: center; border-right: 1px solid #E0D8CE; }
+        .servicio { padding: 1.5rem 1rem; text-align: center; border-right: 1px solid #E0D8CE; }
         .servicio:last-child { border-right: none; }
-        .servicio-icon { font-size: 1.4rem; color: #B8906A; margin-bottom: 0.8rem; }
-        .servicio-titulo { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.3rem; }
-        .servicio-sub { font-size: 0.72rem; color: #7A6E62; line-height: 1.5; }
+        .servicio-icon { font-size: 1.2rem; color: #B8906A; margin-bottom: 0.5rem; }
+        .servicio-titulo { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.2rem; }
+        .servicio-sub { font-size: 0.7rem; color: #7A6E62; }
 
-        .sobre { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-        .sobre-texto { padding: 4rem 3rem; background: #FAF8F5; }
-        .sobre-texto h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; margin-bottom: 1.5rem; }
-        .sobre-texto p { font-size: 0.82rem; line-height: 1.85; color: #5A4E44; margin-bottom: 1rem; }
-        .sobre-acento { background: #2C2820; padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
-        .sobre-acento blockquote { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; font-style: italic; color: #FAF8F5; line-height: 1.6; }
-        .sobre-acento cite { display: block; margin-top: 1.5rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: #B8906A; font-style: normal; }
+        /* SOBRE */
+        .sobre { display: grid; grid-template-columns: 1fr 1fr; }
+        .sobre-texto { padding: 3rem; background: #FAF8F5; }
+        .sobre-texto h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 1rem; }
+        .sobre-texto p { font-size: 0.82rem; line-height: 1.8; color: #5A4E44; margin-bottom: 0.8rem; }
+        .sobre-acento { background: #2C2820; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+        .sobre-acento blockquote { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; font-style: italic; color: #FAF8F5; line-height: 1.6; }
+        .sobre-acento cite { display: block; margin-top: 1.2rem; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #B8906A; font-style: normal; }
 
-        .contacto { padding: 4rem 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; background: #FAF8F5; border-top: 1px solid #E0D8CE; }
-        .contacto-info h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; margin-bottom: 1rem; }
-        .contacto-info p { font-size: 0.82rem; color: #5A4E44; line-height: 1.8; margin-bottom: 1.5rem; }
-        .contacto-detail { display: flex; align-items: center; gap: 0.8rem; font-size: 0.78rem; color: #7A6E62; margin-bottom: 0.6rem; }
-        .contacto-detail svg { flex-shrink: 0; }
+        /* CONTACTO */
+        .contacto { padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; background: #FAF8F5; border-top: 1px solid #E0D8CE; }
+        .contacto h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 0.8rem; }
+        .contacto p { font-size: 0.82rem; color: #5A4E44; line-height: 1.8; margin-bottom: 1.2rem; }
+        .contacto-detail { display: flex; align-items: center; gap: 0.8rem; font-size: 0.78rem; color: #7A6E62; margin-bottom: 0.5rem; }
+        .contacto-turno { display: flex; flex-direction: column; justify-content: center; }
+        .contacto-turno p { font-size: 0.82rem; color: #5A4E44; line-height: 1.8; margin-bottom: 1.5rem; }
 
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem; }
-        .form-group { margin-bottom: 0.8rem; }
-        input, select, textarea { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #D8D0C6; background: #FAF8F5; font-size: 0.8rem; font-family: 'Inter', sans-serif; color: #2C2820; outline: none; appearance: none; }
-        input:focus, select:focus, textarea:focus { border-color: #B8906A; }
-        input::placeholder, textarea::placeholder { color: #A89E94; }
-        textarea { resize: none; }
-        .form-label { display: block; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7A6E62; margin-bottom: 0.4rem; }
-        .form-submit { width: 100%; padding: 0.85rem; background: #2C2820; color: #FAF8F5; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; border: none; cursor: pointer; font-family: 'Inter', sans-serif; margin-top: 0.5rem; }
-        .form-submit:hover { background: #B8906A; }
-
-        footer { padding: 1.5rem 3rem; border-top: 1px solid #E8E2D9; display: flex; justify-content: space-between; align-items: center; }
+        footer { padding: 1.2rem 3rem; border-top: 1px solid #E8E2D9; display: flex; justify-content: space-between; }
         .footer-text { font-size: 0.68rem; color: #A89E94; letter-spacing: 0.06em; }
 
         @media (max-width: 768px) {
             nav { padding: 1rem 1.5rem; }
-            .nav-links { gap: 1.5rem; }
-            .hero { grid-template-columns: 1fr; }
-            .hero-foto { min-height: 320px; }
-            .hero-content { padding: 2.5rem 1.5rem; }
-            .nombre { font-size: 2.8rem; }
+            .hero { grid-template-columns: 1fr; height: auto; max-height: none; }
+            .hero-foto { height: 300px; }
+            .hero-content { padding: 2rem 1.5rem; }
+            .nombre { font-size: 2.5rem; }
             .servicios { grid-template-columns: 1fr 1fr; }
-            .servicio { border-bottom: 1px solid #E0D8CE; }
             .sobre { grid-template-columns: 1fr; }
-            .contacto { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.5rem; }
-            .form-row { grid-template-columns: 1fr; }
-            footer { padding: 1rem 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+            .contacto { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -108,7 +97,6 @@
         </div>
         <div class="cta">
             <a href="turno.html" class="btn-primary">Solicitar turno</a>
-            <a href="#sobre" class="btn-secondary">Conocer más</a>
         </div>
     </div>
 </section>
@@ -116,28 +104,28 @@
 <section id="servicios" class="servicios">
     <div class="servicio">
         <div class="servicio-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
         <div class="servicio-titulo">Terapia individual</div>
         <div class="servicio-sub">Atención personalizada</div>
     </div>
     <div class="servicio">
         <div class="servicio-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
         <div class="servicio-titulo">Migrantes y nómadas</div>
         <div class="servicio-sub">Especialización en movilidad</div>
     </div>
     <div class="servicio">
         <div class="servicio-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
         </div>
         <div class="servicio-titulo">Sesiones online</div>
         <div class="servicio-sub">Desde cualquier lugar</div>
     </div>
     <div class="servicio">
         <div class="servicio-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         </div>
         <div class="servicio-titulo">Presencial</div>
         <div class="servicio-sub">Almagro, CABA</div>
@@ -161,32 +149,28 @@
 </section>
 
 <section id="contacto" class="contacto">
-    <div class="contacto-info">
-        <h2>Agendá una consulta</h2>
-        <p>Si querés conocer más sobre el espacio o tenés alguna duda, con mucho gusto estoy acá para contestarte y conocernos.</p>
+    <div>
+        <h2>Contacto</h2>
+        <p>Si tenés alguna duda antes de pedir turno, escribime directamente.</p>
         <div class="contacto-detail">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             psic.breslin@gmail.com
         </div>
         <div class="contacto-detail">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             Almagro, Ciudad de Buenos Aires
         </div>
         <div class="contacto-detail">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
             Lunes a viernes · 17:00 a 20:00 hs
         </div>
     </div>
-    <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
-        <p style="font-size: 0.82rem; color: #5A4E44; line-height: 1.8; margin-bottom: 2rem;">
-            Seleccioná el día y horario que mejor se adapte a vos. El proceso toma menos de 2 minutos.
-        </p>
-        <a href="turno.html" class="btn-primary" style="text-decoration: none; display: inline-block; font-size: 0.85rem; padding: 1rem 2.5rem;">
-            Elegir día y horario →
-        </a>
+    <div class="contacto-turno">
+        <p>¿Querés reservar un turno? Elegí el día y horario que mejor se adapte a vos. El proceso toma menos de 2 minutos.</p>
+        <a href="turno.html" class="btn-primary" style="display: inline-block; text-decoration: none; text-align: center;">Solicitar turno →</a>
     </div>
 </section>
-   
+
 <footer>
     <span class="footer-text">© 2026 Marina Breslin · Psicóloga</span>
     <span class="footer-text">Matrícula Nacional · CABA · Argentina</span>
