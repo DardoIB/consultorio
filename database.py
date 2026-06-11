@@ -47,12 +47,7 @@ def crear_tablas():
             FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
         )
     """)
-    # Migración: agregar nro_afiliado si no existe
-    try:
-        cursor.execute("ALTER TABLE paciente ADD COLUMN nro_afiliado TEXT")
-    except:
-        pass
-
+   
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS turno_solicitado (
             id_turno INTEGER PRIMARY KEY AUTOINCREMENT,
