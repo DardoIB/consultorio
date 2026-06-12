@@ -75,7 +75,8 @@ def importar_turnos_desde_sheets():
     try:
         client = get_sheets_client()
         sheet_id = st.secrets["sheets"]["spreadsheet_id"]
-        sheet = client.open_by_key(sheet_id).sheet1
+        spreadsheet = client.open_by_key(sheet_id)
+        sheet = spreadsheet.worksheets()[0]
         registros = sheet.get_all_records()
         
         conn = get_connection()
@@ -84,11 +85,11 @@ def importar_turnos_desde_sheets():
         
         for r in registros:
             nombre = f"{r.get('Nombre', '')} {r.get('Apellido', '')}".strip()
-            email = r.get('Email', '')
-            telefono = str(r.get('Teléfono', ''))
+            email = r.get('email', '')
+            telefono = str(r.get('Telefono', ''))
             modalidad = r.get('Modalidad', '')
             hora = r.get('Horario preferido', '')
-            mensaje = r.get('¿Querés contarme algo antes de la primera sesión?', '')
+            mensaje = r.get('¿Querés contarme algo antes de la primera :', '')
             fecha_solicitud = r.get('Marca temporal', '')
             
             if not email:
