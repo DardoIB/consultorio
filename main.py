@@ -406,6 +406,17 @@ elif menu == "Turnos Web":
     tab_pend, tab_nuevo = st.tabs(["Pendientes", "Cargar turno manual"])
 
     with tab_pend:
+        from turnos import importar_turnos_desde_sheets
+        if st.button("🔄 Importar turnos desde Google Forms", key="btn_import"):
+            resultado = importar_turnos_desde_sheets()
+            if isinstance(resultado, int):
+                if resultado > 0:
+                    st.success(f"✅ Se importaron {resultado} turnos nuevos.")
+                else:
+                    st.info("No hay turnos nuevos para importar.")
+            else:
+                st.error(resultado)
+            st.rerun()
         turnos = listar_turnos_pendientes()
         if not turnos:
             st.info("No hay turnos pendientes.")
