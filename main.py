@@ -7,6 +7,16 @@ from database import crear_tablas
 from datetime import date
 
 crear_tablas()
+import os
+
+st.sidebar.write("DB existe:", os.path.exists("consultorio.db"))
+
+if os.path.exists("consultorio.db"):
+    st.sidebar.write(
+        "Tamaño DB:",
+        os.path.getsize("consultorio.db"),
+        "bytes"
+    )
 
 # ─── LOGIN ─────────────────────────────────────────────────
 def check_login():
