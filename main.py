@@ -18,6 +18,27 @@ if os.path.exists("consultorio.db"):
         "bytes"
     )
 
+
+import sqlite3
+
+conn = sqlite3.connect("consultorio.db")
+cursor = conn.cursor()
+
+cursor.execute("SELECT COUNT(*) FROM paciente")
+cant_pac = cursor.fetchone()[0]
+
+cursor.execute("SELECT COUNT(*) FROM sesion")
+cant_ses = cursor.fetchone()[0]
+
+cursor.execute("SELECT COUNT(*) FROM turno_solicitado")
+cant_turn = cursor.fetchone()[0]
+
+conn.close()
+
+st.sidebar.write("Pacientes:", cant_pac)
+st.sidebar.write("Sesiones:", cant_ses)
+st.sidebar.write("Turnos:", cant_turn)
+
 # ─── LOGIN ─────────────────────────────────────────────────
 def check_login():
     if "logged_in" not in st.session_state:
