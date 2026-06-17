@@ -17,7 +17,10 @@ if os.path.exists("consultorio.db"):
         os.path.getsize("consultorio.db"),
         "bytes"
     )
+import os
 
+st.sidebar.write("Working dir:", os.getcwd())
+st.sidebar.write("DB absoluta:", os.path.abspath("consultorio.db"))
 
 import sqlite3
 
