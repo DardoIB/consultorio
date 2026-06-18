@@ -11,6 +11,9 @@ import streamlit as st
 import requests
 
 url = st.secrets["SUPABASE_URL"]
+st.write("URL RAW:")
+st.write(repr(url))
+st.stop()
 
 st.write("Probando:", url)
 
