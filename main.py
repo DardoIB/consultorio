@@ -1,9 +1,8 @@
 import streamlit as st
 
-st.write("Secrets completos:")
-st.write(st.secrets)
-
+st.write(st.secrets.keys())
 st.stop()
+
 import streamlit as st
 import pandas as pd
 from pacientes import agregar_paciente, listar_pacientes, obtener_paciente, modificar_paciente
