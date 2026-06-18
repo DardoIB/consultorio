@@ -1,4 +1,10 @@
 import streamlit as st
+
+st.write("Secrets completos:")
+st.write(st.secrets)
+
+st.stop()
+import streamlit as st
 import pandas as pd
 from pacientes import agregar_paciente, listar_pacientes, obtener_paciente, modificar_paciente
 from sesiones import agregar_sesion, listar_sesiones_paciente, listar_sesiones_pendientes, marcar_cobrado
