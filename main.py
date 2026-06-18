@@ -11,16 +11,17 @@ from supabase import create_client
 import streamlit as st
 
 st.write("Secrets disponibles:")
-st.write(st.secrets)
+st.write(list(st.secrets.keys()))
+
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
 
 supabase = create_client(url, key)
 
-try:
-    resultado = supabase.table("paciente").select("*").execute()
-    st.sidebar.success("Supabase OK")
-    st.sidebar.write("Pacientes:", len(resultado.data))
-except Exception as e:
-    st.sidebar.error(f"Error Supabase: {e}")
+resultado = supabase.table("paciente").select("*").execute()
+
+st.success("Supabase conectado")
+st.write("Pacientes:", len(resultado.data))
 
 
 crear_tablas()
