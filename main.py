@@ -7,21 +7,20 @@ from database import crear_tablas
 from datetime import date
 
 
-from supabase import create_client
 import streamlit as st
-
-st.write("Secrets disponibles:")
-st.write(list(st.secrets.keys()))
+import requests
 
 url = st.secrets["SUPABASE_URL"]
-key = st.secrets["SUPABASE_KEY"]
 
-supabase = create_client(url, key)
+st.write("Probando:", url)
 
-resultado = supabase.table("paciente").select("*").execute()
+try:
+    r = requests.get(url, timeout=10)
+    st.write("Status:", r.status_code)
+    st.write(r.text[:200])
 
-st.success("Supabase conectado")
-st.write("Pacientes:", len(resultado.data))
+except Exception as e:
+    st.error(str(e))
 
 
 crear_tablas()
