@@ -1,6 +1,11 @@
 import streamlit as st
 
-st.write(st.secrets.keys())
+st.write("URL:")
+st.write(st.secrets["SUPABASE_URL"])
+
+st.write("Largo de la key:")
+st.write(len(st.secrets["SUPABASE_KEY"]))
+
 st.stop()
 
 import streamlit as st
@@ -12,23 +17,6 @@ from database import crear_tablas
 from datetime import date
 
 
-import streamlit as st
-import requests
-
-url = st.secrets["SUPABASE_URL"]
-st.write("URL RAW:")
-st.write(repr(url))
-st.stop()
-
-st.write("Probando:", url)
-
-try:
-    r = requests.get(url, timeout=10)
-    st.write("Status:", r.status_code)
-    st.write(r.text[:200])
-
-except Exception as e:
-    st.error(str(e))
 
 
 crear_tablas()
