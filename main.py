@@ -1,5 +1,7 @@
 import streamlit as st
-
+st.write("KEY:")
+st.write(st.secrets["SUPABASE_KEY"])
+st.stop()
 st.write("URL:")
 st.write(st.secrets["SUPABASE_URL"])
 
