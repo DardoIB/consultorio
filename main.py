@@ -1,12 +1,14 @@
+from supabase import create_client
 import streamlit as st
-st.write("KEY:")
-st.write(st.secrets["SUPABASE_KEY"])
-st.stop()
-st.write("URL:")
-st.write(st.secrets["SUPABASE_URL"])
 
-st.write("Largo de la key:")
-st.write(len(st.secrets["SUPABASE_KEY"]))
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
+
+try:
+    supabase = create_client(url, key)
+    st.success("CLIENTE CREADO")
+except Exception as e:
+    st.error(f"ERROR: {e}")
 
 st.stop()
 
