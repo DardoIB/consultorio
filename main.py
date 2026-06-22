@@ -6,9 +6,20 @@ key = st.secrets["SUPABASE_KEY"]
 
 try:
     supabase = create_client(url, key)
-    st.success("CLIENTE CREADO")
+
+    resultado = (
+        supabase
+        .table("paciente")
+        .select("*")
+        .limit(1)
+        .execute()
+    )
+
+    st.success("LECTURA OK")
+    st.write(resultado.data)
+
 except Exception as e:
-    st.error(f"ERROR: {e}")
+    st.error(str(e))
 
 st.stop()
 
