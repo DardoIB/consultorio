@@ -6,23 +6,30 @@ def agregar_paciente(nombre, apellido, fecha_nacimiento, telefono, email,
                      obra_social, nro_afiliado, moneda, precio_sesion,
                      pais_residencia):
 
-    supabase.table("paciente").insert({
-        "nombre": nombre,
-        "apellido": apellido,
-        "fecha_nacimiento": fecha_nacimiento,
-        "telefono": telefono,
-        "email": email,
-        "fecha_primera_consulta": fecha_primera_consulta,
-        "patologia": patologia,
-        "modalidad": modalidad,
-        "tipo": tipo,
-        "obra_social": obra_social,
-        "nro_afiliado": nro_afiliado,
-        "moneda": moneda,
-        "precio_sesion": precio_sesion,
-        "pais_residencia": pais_residencia,
-        "estado": "activo"
-    }).execute()
+    try:
+        resultado = supabase.table("paciente").insert({
+            "nombre": nombre,
+            "apellido": apellido,
+            "fecha_nacimiento": fecha_nacimiento,
+            "telefono": telefono,
+            "email": email,
+            "fecha_primera_consulta": fecha_primera_consulta,
+            "patologia": patologia,
+            "modalidad": modalidad,
+            "tipo": tipo,
+            "obra_social": obra_social,
+            "nro_afiliado": nro_afiliado,
+            "moneda": moneda,
+            "precio_sesion": precio_sesion,
+            "pais_residencia": pais_residencia,
+            "estado": "activo"
+        }).execute()
+
+        return resultado
+
+    except Exception as e:
+        print("ERROR SUPABASE:", e)
+        raise
 
 
 def listar_pacientes():
