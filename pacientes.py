@@ -1,77 +1,78 @@
-from database import get_connection
+from supabase_client import supabase
+
 
 def agregar_paciente(nombre, apellido, fecha_nacimiento, telefono, email,
                      fecha_primera_consulta, patologia, modalidad, tipo,
-                     obra_social, nro_afiliado, moneda, precio_sesion, pais_residencia):
-    conn = get_connection()
-    cursor = conn.cursor()
+                     obra_social, nro_afiliado, moneda, precio_sesion,
+                     pais_residencia):
 
-    cursor.execute("""
-        INSERT INTO paciente (nombre, apellido, fecha_nacimiento, telefono, email,
-                              fecha_primera_consulta, patologia, modalidad, tipo,
-                              obra_social, nro_afiliado, moneda, precio_sesion, pais_residencia)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (nombre, apellido, fecha_nacimiento, telefono, email,
-          fecha_primera_consulta, patologia, modalidad, tipo,
-          obra_social, nro_afiliado, moneda, precio_sesion, pais_residencia))
+    supabase.table("paciente").insert({
+        "nombre": nombre,
+        "apellido": apellido,
+        "fecha_nacimiento": fecha_nacimiento,
+        "telefono": telefono,
+        "email": email,
+        "fecha_primera_consulta": fecha_primera_consulta,
+        "patologia": patologia,
+        "modalidad": modalidad,
+        "tipo": tipo,
+        "obra_social": obra_social,
+        "nro_afiliado": nro_afiliado,
+        "moneda": moneda,
+        "precio_sesion": precio_sesion,
+        "pais_residencia": pais_residencia,
+        "estado": "activo"
+    }).execute()
 
-    conn.commit()
-    conn.close()
 
 def listar_pacientes():
-    conn = get_connection()
-    cursor = conn.cursor()
 
-    cursor.execute("""
-        SELECT id_paciente, nombre, apellido, patologia,
-               modalidad, tipo, moneda, precio_sesion, pais_residencia
-        FROM paciente
-        WHERE estado = 'activo'
-        ORDER BY apellido, nombre
-    """)
+    resultado = (
+        supabase
+        .table("paciente")
+        .select("*")
+        .eq("estado", "activo")
+        .order("apellido")
+        .execute()
+    )
 
-    pacientes = cursor.fetchall()
-    conn.close()
-    return pacientes
+    return resultado.data
+
 
 def obtener_paciente(id_paciente):
-    conn = get_connection()
-    cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM paciente WHERE id_paciente = ?", (id_paciente,))
-    paciente = cursor.fetchone()
-    conn.close()
-    return paciente
+    resultado = (
+        supabase
+        .table("paciente")
+        .select("*")
+        .eq("id_paciente", id_paciente)
+        .execute()
+    )
 
-def modificar_paciente(id_paciente, nombre, apellido, fecha_nacimiento, telefono,
-                       email, patologia, modalidad, tipo, obra_social, nro_afiliado,
-                       moneda, precio_sesion, pais_residencia, estado):
-    conn = get_connection()
-    cursor = conn.cursor()
+    if resultado.data:
+        return resultado.data[0]
 
-    cursor.execute("""
-        UPDATE paciente SET nombre=?, apellido=?, fecha_nacimiento=?, telefono=?,
-               email=?, patologia=?, modalidad=?, tipo=?, obra_social=?,
-               nro_afiliado=?, moneda=?, precio_sesion=?, pais_residencia=?, estado=?
-        WHERE id_paciente=?
-    """, (nombre, apellido, fecha_nacimiento, telefono, email, patologia,
-          modalidad, tipo, obra_social, nro_afiliado, moneda, precio_sesion,
-          pais_residencia, estado, id_paciente))
+    return None
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS turno_solicitado (
-            id_turno INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT NOT NULL,
-            email TEXT NOT NULL,
-            telefono TEXT,
-            modalidad TEXT,
-            fecha TEXT NOT NULL,
-            hora TEXT NOT NULL,
-            mensaje TEXT,
-            estado TEXT DEFAULT 'pendiente',
-            fecha_solicitud TEXT
-        )
-    """)
 
-    conn.commit()
-    conn.close()
+def modificar_paciente(id_paciente, nombre, apellido, fecha_nacimiento,
+                       telefono, email, patologia, modalidad, tipo,
+                       obra_social, nro_afiliado, moneda,
+                       precio_sesion, pais_residencia, estado):
+
+    supabase.table("paciente").update({
+        "nombre": nombre,
+        "apellido": apellido,
+        "fecha_nacimiento": fecha_nacimiento,
+        "telefono": telefono,
+        "email": email,
+        "patologia": patologia,
+        "modalidad": modalidad,
+        "tipo": tipo,
+        "obra_social": obra_social,
+        "nro_afiliado": nro_afiliado,
+        "moneda": moneda,
+        "precio_sesion": precio_sesion,
+        "pais_residencia": pais_residencia,
+        "estado": estado
+    }).eq("id_paciente", id_paciente).execute()
