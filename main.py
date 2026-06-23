@@ -7,6 +7,25 @@ key = st.secrets["SUPABASE_KEY"]
 try:
     supabase = create_client(url, key)
 
+    resultado = supabase.table("paciente").select("*").execute()
+
+    st.success("LECTURA OK")
+    st.write(resultado.data)
+
+except Exception as e:
+    st.error(str(e))
+
+st.stop()
+
+from supabase import create_client
+import streamlit as st
+
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
+
+try:
+    supabase = create_client(url, key)
+
     resultado = (
         supabase
         .table("paciente")
