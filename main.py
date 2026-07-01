@@ -1,3 +1,5 @@
+import pagina_test
+st.stop()
 import streamlit as st
 import pandas as pd
 from pacientes import agregar_paciente, listar_pacientes, obtener_paciente, modificar_paciente
